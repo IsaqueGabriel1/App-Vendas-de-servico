@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Venda de Servico</string>
+    <string name="titulo_form_cadastro">Cadastros</string>
+    <string name="titulo_form_login">Login</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_senha">Senha</string>
+    <string name="hint_btn">Cadastrar usuario</string>
+    <string name="hint_btnEntrar">Entrar</string>
+    <string name="hint_naoCadastro">Não tem cadastro? Clique aqui!</string>
+    <string name="hint_titulo_principal">Tela Principal</string>
+    <string name="hint_deslogar">Sair?</string>
+    <string name="hint_cadastroServico">Cadastro de serviço</string>
+    <string name="hint_obsServico">Observações do serviço</string>
+</resources>

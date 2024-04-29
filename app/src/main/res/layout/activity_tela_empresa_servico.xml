@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/figmafundo"
+        tools:context=".view.cliente.editarOrdem.EditarOrdem">
+
+
+        <TextView
+            android:id="@+id/btn_deslogar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="330dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/ic_voltar_nav"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ordem"
+            android:textSize="40dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginTop="90dp"
+            android:layout_marginBottom="20dp"
+            />
+
+        <EditText
+            android:id="@+id/editDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descricao"
+            android:background="@drawable/fundoinput_text"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:inputType="text"
+            />
+
+        <EditText
+            android:id="@+id/editPorte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Porte"
+            android:background="@drawable/fundoinput_text"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:inputType="text"
+            />
+
+        <EditText
+            android:id="@+id/editValor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Valor"
+            android:background="@drawable/fundoinput_text"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:inputType="text"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_editar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar"
+            android:layout_gravity="center"
+            android:background="@drawable/backgroud_buttom_editar"
+            android:textColor="@color/corFunAzul"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_excluir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Excluir"
+            android:layout_gravity="center"
+            android:background="@drawable/backgroud_buttom_excluir"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            />
+
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

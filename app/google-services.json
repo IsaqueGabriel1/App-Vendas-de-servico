@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "546250547592",
+    "project_id": "appvendaservico",
+    "storage_bucket": "appvendaservico.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546250547592:android:5ebdcb3cdd06a92385da3d",
+        "android_client_info": {
+          "package_name": "com.example.projetokotlin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB56mJrP7rsF-5Ftv3lZFYAV2MvStICbfg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
