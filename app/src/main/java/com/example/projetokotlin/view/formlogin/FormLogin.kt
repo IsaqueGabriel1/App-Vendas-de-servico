@@ -44,7 +44,7 @@ class FormLogin : AppCompatActivity() {
                     if(autentic.isSuccessful){
                         navegarTelainicial()
                     }else{
-                        mensagem("Informações invalidas, preencha os campos novamente", "Aviso")
+                        mensagem("E-mail ou senha incorretos!", "Aviso")
                         binding.editEmail.setText("")
                         binding.editSenha.setText("")
                     }

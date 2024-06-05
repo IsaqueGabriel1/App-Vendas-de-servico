@@ -30,7 +30,7 @@ class GerarNovaOrdem : AppCompatActivity() {
             insets
         }
 
-        binding.btnDeslogar.setOnClickListener{
+        binding.btnVoltar.setOnClickListener{
             telaInicial()
         }
 
@@ -101,6 +101,9 @@ class GerarNovaOrdem : AppCompatActivity() {
             if(sucesso == true){
                 builder.setTitle("Alerta!")
                 .setMessage(msg)
+                    .setPositiveButton("OK"){
+                            dialog, whitch -> telaInicial()
+                    }
             }else{
                 builder.setTitle("Alerta!")
                     .setMessage(msg)

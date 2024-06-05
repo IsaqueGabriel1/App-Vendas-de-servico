@@ -6,5 +6,4 @@ data class Ordem(
     val porteSistema:String?=null,
     val valor:String?=null,
     val status:String?=null
-
 )
