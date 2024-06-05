@@ -6,6 +6,7 @@ import android.media.Rating
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -13,23 +14,43 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projetokotlin.R
 import com.example.projetokotlin.view.EditarExcluirOrdem.EditarExcluirOrdem
 import com.example.projetokotlin.view.avaliacao.avaliacaoServico
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlin.random.Random
 
 
 class MyAdapter(private  val OrdemServico:ArrayList<Ordem>, private val context: Context):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+    private val db = FirebaseFirestore.getInstance()
     inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        private val db = FirebaseFirestore.getInstance()
-        val cliente: TextView = itemView.findViewById(R.id.editCliente)
-        val descricao: TextView = itemView.findViewById(R.id.editdescricao)
-        val comentario: TextView = itemView.findViewById(R.id.editComentario)
-        val numeroStars: RatingBar = itemView.findViewById(R.id.ratingbar)
+        var cliente:TextView
+        var descricao: TextView
+        var comentario: TextView
+        var numeroStars: RatingBar
+        var btn_avaliar:Button
         init {
-            itemView.setOnClickListener{
-                val intent = Intent(context, avaliacaoServico::class.java)
-                intent.putExtra("cliente", cliente.text.toString())
-                intent.putExtra("descricao", descricao.text.toString())
-                context.startActivity(intent)
+            cliente = itemView.findViewById(R.id.txtCliente)
+            descricao = itemView.findViewById(R.id.editdescricao)
+            comentario = itemView.findViewById(R.id.editComentario)
+            numeroStars = itemView.findViewById(R.id.ratingbar)
+            btn_avaliar = itemView.findViewById(R.id.btn_avaliar)
+            btn_avaliar.setOnClickListener{
+
+                val email = Firebase.auth.currentUser
+                email?.let {
+                    if(email.email.toString() != "empresa@gmail.com"){
+                        if(email.email.toString() == cliente.text.toString()){
+                            val intent = Intent(context, avaliacaoServico::class.java)
+                            intent.putExtra("descricao", descricao.text.toString())
+                            context.startActivity(intent)
+                        }else{
+                            mensagem("Você não pode avaliar uma ordem que não te pertence!")
+                        }
+                    }else{
+                        mensagem("A empresa não pode avaliar os serviços prestados aos seus usuarios!")
+
+                    }
+                }
             }
         }
     }

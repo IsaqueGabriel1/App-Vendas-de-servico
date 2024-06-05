@@ -30,7 +30,7 @@ class GerarNovaOrdem : AppCompatActivity() {
             insets
         }
 
-        binding.btnDeslogar.setOnClickListener{
+        binding.btnVoltar.setOnClickListener{
             telaInicial()
         }
 
@@ -73,7 +73,7 @@ class GerarNovaOrdem : AppCompatActivity() {
                 "Cliente" to it.email.toString(),
                 "descricao" to descricao.toString(),
                 "porteSistema" to porteSistema.toString(),
-                "valor" to valor.toString(),
+                "valor" to "R$"+valor.toString(),
                 "status" to "Aguardando analise",
                 "comentario" to "",
                 "numeroStars" to 0
@@ -101,6 +101,9 @@ class GerarNovaOrdem : AppCompatActivity() {
             if(sucesso == true){
                 builder.setTitle("Alerta!")
                 .setMessage(msg)
+                    .setPositiveButton("OK"){
+                            dialog, whitch -> telaInicial()
+                    }
             }else{
                 builder.setTitle("Alerta!")
                     .setMessage(msg)

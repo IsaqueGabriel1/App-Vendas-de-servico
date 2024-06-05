@@ -8,4 +8,6 @@
     <color name="corFundo">#000C0C</color>
     <color name="caixaTexto">#0FBAB7</color>
     <color name="corFunAzul">#0FBAB7</color>
+    <color name="backgroud">#016C6A</color>
+    <color name="btnfinalizar">#7fc13f</color>
 </resources>

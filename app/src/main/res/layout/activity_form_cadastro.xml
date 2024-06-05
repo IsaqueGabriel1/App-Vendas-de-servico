@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/figmafundo"
+        android:background="@color/backgroud"
         tools:context=".view.formcadastro.FormCadastro">
 
         <TextView
@@ -53,15 +53,14 @@
             android:padding="15dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:inputType="numberPassword"
-
+            android:inputType="text|textWebPassword"
             />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btbCadastrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Entrar"
+            android:text="Cadastrar"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"

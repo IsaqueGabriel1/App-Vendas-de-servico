@@ -12,21 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/fundo"
+        android:background="@color/backgroud"
         tools:context=".view.formcadastro.FormCadastro">
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/titulo_form_login"
-            android:textSize="55dp"
+            android:text="Redefinir senha"
+            android:textSize="45dp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_gravity="center"
             android:layout_marginTop="150dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginBottom="20dp"
             />
+
         <EditText
             android:id="@+id/edit_email"
             android:layout_width="match_parent"
@@ -54,51 +54,37 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:inputType="text|textWebPassword"
-
             />
-        <TextView
-            android:id="@+id/btnRecuperarSenha"
-            android:layout_width="wrap_content"
+
+        <EditText
+            android:id="@+id/edit_confir_senha"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Esqueceu sua senha? clique aqui!"
-            android:textSize="15dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_gravity="end"
+            android:hint="Confirme sua senha"
+            android:background="@drawable/fundoinput_text"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="15dp"
+            android:padding="15dp"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="1dp"
+            android:inputType="text|textWebPassword"
             />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btbEntrar"
+            android:id="@+id/btnEnviar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Entrar"
+            android:text="Enviar"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="50dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/telaCadastrar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cadastre-se"
-            android:layout_gravity="center"
-            android:background="@drawable/backgroud_buttom"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

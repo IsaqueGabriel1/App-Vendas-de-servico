@@ -82,7 +82,7 @@ class FormCadastro : AppCompatActivity() {
         builder.setTitle(titulo)
             .setMessage(msg)
             .setPositiveButton("OK"){
-                    dialog, whitch -> navegarTelainicial()
+                    dialog, whitch ->
             }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()

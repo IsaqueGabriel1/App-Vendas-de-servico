@@ -13,10 +13,19 @@
         android:theme="@style/Theme.ProjetoKotlin"
         tools:targetApi="31">
         <activity
-            android:name=".view.avaliacao.avaliacaoServico"
+            android:name=".view.inicioEmpresa.novaSenha.NovaSenhaEmpresa"
             android:exported="false" />
         <activity
-            android:name=".view.cliente.editarOrdem.EditarOrdem"
+            android:name=".view.inicioEmpresa.faturamento.TelaFaturamento"
+            android:exported="false" />
+        <activity
+            android:name=".view.inicioEmpresa.telaInicialEmpresa"
+            android:exported="false" />
+        <activity
+            android:name=".view.gestaoOrdem.GestaoDeOrdem"
+            android:exported="false" />
+        <activity
+            android:name=".view.avaliacao.avaliacaoServico"
             android:exported="false" />
         <activity
             android:name=".view.cliente.OrdensDoCliente"
