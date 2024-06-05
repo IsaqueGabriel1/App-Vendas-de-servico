@@ -101,6 +101,9 @@ class EditarExcluirOrdem : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Alerta de alteração")
             .setMessage("Registro editado com sucesso!")
+            val voltarTelaLogin = Intent(this, telaNavegacao:: class.java)
+            startActivity(voltarTelaLogin)
+            finish()
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }

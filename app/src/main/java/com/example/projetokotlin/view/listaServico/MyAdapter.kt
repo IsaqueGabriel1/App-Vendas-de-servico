@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBindings
 import com.example.projetokotlin.R
 import com.example.projetokotlin.view.EditarExcluirOrdem.EditarExcluirOrdem
+import com.example.projetokotlin.view.gestaoOrdem.GestaoDeOrdem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,26 +29,21 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
         val status: TextView = itemView.findViewById(R.id.editStatus)
 
         init {
-
             val email = Firebase.auth.currentUser
 
             email?.let {
                 itemView.setOnClickListener {
                     if (email.email == "empresa@gmail.com") {
-                        val builder = AlertDialog.Builder(context)
-                        builder.setTitle("Alerta!")
-                            .setMessage("Realmente deseja aceitar o pedido do cliente " + cliente.text + "?")
-                            .setPositiveButton("Sim") { dialog, whitch ->
-                                Toast.makeText(context, "Sucesso!", Toast.LENGTH_SHORT).show()
-                                //Fazer uma lógica para mudar o status da ordem ao clicar no card
-                                contratarServico(descricao.text.toString())
-                                status.text = "Em Andamento"
-                            }
-                            .setNegativeButton("Não") { dialog, whitch ->
-                                dialog.dismiss()
-                            }
-                        val alertDialog: AlertDialog = builder.create()
-                        alertDialog.show()
+                        if (status.text.toString() == "Aguardando analise" || status.text.toString() == "Rejeitado" || status.text.toString() == "Em andamento") {
+                            val intent = Intent(context, GestaoDeOrdem::class.java)
+                            intent.putExtra("descricao", descricao.text.toString())
+                            intent.putExtra("valor", valor.text.toString())
+                            intent.putExtra("porte", porte.text.toString())
+                            intent.putExtra("status",status.text.toString())
+                            context.startActivity(intent)
+                        } else {
+                            mensagem("Esse serviço já foi Finalizado!", false)
+                        }
                     } else {
                         //pega a referencia da atividade ListarServico para ir para a tela de edicao ser ordem
                         val intent = Intent(context, EditarExcluirOrdem::class.java)

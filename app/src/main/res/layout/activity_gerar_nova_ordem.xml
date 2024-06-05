@@ -10,12 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@drawable/figmafundo"
+        android:background="@color/backgroud"
         tools:context=".view.formcadastro.FormCadastro">
 
-
         <TextView
-            android:id="@+id/btn_deslogar"
+            android:id="@+id/btn_voltar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="330dp"
@@ -86,7 +85,7 @@
             android:id="@+id/btn_gravarDB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gerar ordem"
+            android:text="Gerar serviço"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"
