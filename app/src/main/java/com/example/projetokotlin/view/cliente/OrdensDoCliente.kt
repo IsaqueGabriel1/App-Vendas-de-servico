@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,6 +14,8 @@ import com.example.projetokotlin.R
 import com.example.projetokotlin.databinding.ActivityServicosClienteBinding
 import com.example.projetokotlin.databinding.ActivityTelaEmpresaServicoBinding
 import com.example.projetokotlin.view.formlogin.FormLogin
+import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
+import com.example.projetokotlin.view.listaServico.ListaServico
 import com.example.projetokotlin.view.navegacao.telaNavegacao
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -39,7 +42,7 @@ class OrdensDoCliente : AppCompatActivity() {
         }
 
         binding.btnVoltar.setOnClickListener{
-            voltarInicio()
+            telaInicial()
         }
 
         recyclerView = findViewById(R.id.recycleview)
@@ -52,15 +55,19 @@ class OrdensDoCliente : AppCompatActivity() {
             //se o email for empresa, então poderá ver todas as ordens
             db = FirebaseFirestore.getInstance()
             db.collection("Servico")
-                .get(Source.CACHE).addOnSuccessListener {
+                .get().addOnSuccessListener {
                     if (!it.isEmpty) {
                         for (data in it.documents) {
                             val servico: Ordem? = data.toObject(Ordem::class.java)
                             if (servico != null) {
-                                listaServicoContratado.add(servico)
+                                if(servico.status.toString() == "Finalizado"){
+                                    listaServicoContratado.add(servico)
+                                }
                             }
                         }
                         recyclerView.adapter = MyAdapter(listaServicoContratado, this)
+                    }else{
+                        mensagem("No momento, não existe registros para apresentar","ALERTA")
                     }
                 }.addOnFailureListener {
                     Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
@@ -68,9 +75,30 @@ class OrdensDoCliente : AppCompatActivity() {
         }
     }
 
-    private fun voltarInicio(){
-        val intent = Intent(this, telaNavegacao::class.java)
-        startActivity(intent)
-        finish()
+    private fun mensagem(msg:String, titulo:String){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(titulo)
+            .setMessage(msg)
+            .setPositiveButton("OK"){
+                    dialog, whitch -> telaInicial()
+            }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
+
+    private fun telaInicial(){
+        val email = Firebase.auth.currentUser
+        email?.let {
+            if(email.email == "empresa@gmail.com"){
+                val intent = Intent(this, telaInicialEmpresa::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(this, telaNavegacao::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
     }
 }

@@ -12,6 +12,8 @@ import com.example.projetokotlin.R
 import com.example.projetokotlin.databinding.ActivityFormLoginBinding
 import com.example.projetokotlin.view.avaliacao.avaliacaoServico
 import com.example.projetokotlin.view.formcadastro.FormCadastro
+import com.example.projetokotlin.view.inicioEmpresa.novaSenha.NovaSenhaEmpresa
+import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
 import com.example.projetokotlin.view.navegacao.telaNavegacao
 import com.google.firebase.auth.FirebaseAuth
 import java.text.Normalizer.Form
@@ -42,7 +44,11 @@ class FormLogin : AppCompatActivity() {
             }else{
                 auth.signInWithEmailAndPassword(email,senha).addOnCompleteListener{autentic ->
                     if(autentic.isSuccessful){
-                        navegarTelainicial()
+                        if (email == "empresa@gmail.com"){
+                            navegarInicialEmpresa()
+                        }else{
+                            navegarTelainicial()
+                        }
                     }else{
                         mensagem("E-mail ou senha incorretos!", "Aviso")
                         binding.editEmail.setText("")
@@ -65,25 +71,25 @@ class FormLogin : AppCompatActivity() {
             if(email == ""){
                 mensagem("O campo email está vazio. Por favor, digite um email valido!", "Mensagem de erro")
             }else{
-               redefinirSenha(email)
+               redefinirSenha()
             }
         }
     }
 
     //redefine a senha do usuario se existir
-    private fun redefinirSenha(email:String){
-        if(auth != null){
-            auth.sendPasswordResetEmail(email).continueWith{
-                    task ->
-                if(task.isCanceled){
-                    mensagem("Não foi possivel enviar o email, tente novamente mais tarde!", "AVISO")
-                }
-                mensagem("Se o email informado for valido, enviaremos um link para redefinir sua senha!", "AVISO!")
-            }
-        }
+    private fun redefinirSenha(){
+        val intent = Intent(this,NovaSenhaEmpresa::class.java)
+        startActivity(intent)
+        finish()
     }
     private fun navegarTelainicial(){
         val intent = Intent(this,telaNavegacao::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun navegarInicialEmpresa(){
+        val intent = Intent(this,telaInicialEmpresa()::class.java)
         startActivity(intent)
         finish()
     }

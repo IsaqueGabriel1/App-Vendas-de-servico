@@ -11,47 +11,35 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="280dp"
         android:background="@drawable/botao"
         android:orientation="vertical"
         android:padding="10dp">
 
         <TextView
             android:id="@+id/txtOrdem"
-            android:layout_width="190dp"
-            android:layout_height="29dp"
-            android:text="Ordem de servico"
+            android:layout_width="166dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:text="Ordem do cliente:"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="10dp"
-            tools:layout_editor_absoluteY="10dp" />
-
-        <TextView
-            android:id="@+id/editCliente"
-            android:layout_width="187dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="10dp"
-            android:text="Cliente"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/txtOrdem"
-            app:layout_constraintTop_toBottomOf="@+id/txtOrdem" />
+            tools:layout_editor_absoluteX="10dp" />
 
         <TextView
             android:id="@+id/editdescricao"
             android:layout_width="317dp"
             android:layout_height="24dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="Descricao"
             android:textColor="@color/black"
             android:textSize="15dp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/editCliente"
-            app:layout_constraintTop_toBottomOf="@+id/editCliente" />
-
+            app:layout_constraintStart_toStartOf="@+id/txtOrdem"
+            app:layout_constraintTop_toBottomOf="@+id/txtOrdem" />
 
 
         <RatingBar
@@ -61,6 +49,7 @@
             android:layout_marginTop="10dp"
             android:numStars="5"
             android:progressTint="#FF9800"
+
             app:layout_constraintStart_toStartOf="@+id/editdescricao"
             app:layout_constraintTop_toBottomOf="@+id/editdescricao"
             tools:ignore="MissingConstraints" />
@@ -69,19 +58,52 @@
             android:id="@+id/editComentario"
             android:layout_width="355dp"
             android:layout_height="49dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="#F9F2E7"
             android:ems="10"
             android:gravity="start|top"
-            android:hint="Digite aqui o seu comentario"
+            android:hint="Avalie o o serviço prestado!!!"
             android:inputType="textMultiLine"
             android:lines="1"
             android:padding="10dp"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            app:layout_constraintStart_toStartOf="@+id/ratingbar"
-            app:layout_constraintTop_toBottomOf="@+id/ratingbar"
+            app:layout_constraintStart_toStartOf="@+id/btn_avaliar"
+            app:layout_constraintTop_toBottomOf="@+id/btn_avaliar"
             tools:ignore="MissingConstraints" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_avaliar"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="140dp"
+            android:layout_marginEnd="95dp"
+            android:background="@drawable/backgroud_buttom_editar"
+            android:text="Avalie o serviço aqui!"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.518"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.262" />
+
+        <TextView
+            android:id="@+id/txtCliente"
+            android:layout_width="190dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtOrdem"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

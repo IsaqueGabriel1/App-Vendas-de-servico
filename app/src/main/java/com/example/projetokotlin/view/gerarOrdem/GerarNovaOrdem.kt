@@ -73,7 +73,7 @@ class GerarNovaOrdem : AppCompatActivity() {
                 "Cliente" to it.email.toString(),
                 "descricao" to descricao.toString(),
                 "porteSistema" to porteSistema.toString(),
-                "valor" to valor.toString(),
+                "valor" to "R$"+valor.toString(),
                 "status" to "Aguardando analise",
                 "comentario" to "",
                 "numeroStars" to 0

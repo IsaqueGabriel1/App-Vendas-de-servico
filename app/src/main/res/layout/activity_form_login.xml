@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/backgroud"
+        android:background="@drawable/fundo"
         tools:context=".view.formcadastro.FormCadastro">
 
 
@@ -53,7 +53,7 @@
             android:padding="15dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:inputType="text"
+            android:inputType="text|textWebPassword"
 
             />
         <TextView
