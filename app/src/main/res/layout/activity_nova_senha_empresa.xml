@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -11,13 +13,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/backgroud"
-        tools:context=".view.cliente.editarOrdem.EditarOrdem">
-
-
+        tools:context=".view.formcadastro.FormCadastro">
 
         <TextView
             android:id="@+id/voltar"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="350dp"
@@ -30,20 +30,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ordem"
-            android:textSize="40dp"
+            android:text="Redefinir senha"
+            android:textSize="45dp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="150dp"
             android:layout_marginBottom="20dp"
             />
 
         <EditText
-            android:id="@+id/editTitulo"
+            android:id="@+id/edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descricao"
+            android:hint="@string/hint_email"
             android:background="@drawable/fundoinput_text"
             android:textColorHint="@color/white"
             android:layout_marginTop="10dp"
@@ -51,71 +51,51 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:maxLines="1"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             />
 
         <EditText
-            android:id="@+id/editPorte"
+            android:id="@+id/edit_senha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Porte"
+            android:hint="@string/hint_senha"
             android:background="@drawable/fundoinput_text"
             android:textColorHint="@color/white"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:padding="15dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:maxLines="1"
-            android:inputType="text"
+            android:inputType="text|textWebPassword"
             />
 
         <EditText
-            android:id="@+id/editValor"
+            android:id="@+id/edit_confir_senha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Valor"
+            android:hint="Confirme sua senha"
             android:background="@drawable/fundoinput_text"
             android:textColorHint="@color/white"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:padding="15dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:maxLines="1"
-            android:inputType="text"
+            android:inputType="text|textWebPassword"
             />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_editar"
+            android:id="@+id/btnEnviar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar"
+            android:text="Enviar"
             android:layout_gravity="center"
-            android:background="@drawable/backgroud_buttom_editar"
-            android:textColor="@color/corFunAzul"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            />
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_excluir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Excluir"
-            android:layout_gravity="center"
-            android:background="@drawable/backgroud_buttom_excluir"
+            android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             />
-
-
 
     </LinearLayout>
 

@@ -14,6 +14,7 @@ import com.example.projetokotlin.databinding.ActivityAvaliacaoServicoBinding
 import com.example.projetokotlin.databinding.ActivityFormLoginBinding
 import com.example.projetokotlin.view.cliente.OrdensDoCliente
 import com.example.projetokotlin.view.formlogin.FormLogin
+import com.example.projetokotlin.view.listaServico.ListaServico
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -58,7 +59,6 @@ class avaliacaoServico : AppCompatActivity() {
     }
 
     private fun recuperarDados(){
-        val cliente = intent.getStringExtra("cliente")
         val descricao = intent.getStringExtra("descricao")
 
         //função para colocar dados nos inputs
@@ -82,4 +82,6 @@ class avaliacaoServico : AppCompatActivity() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }
+
+
 }

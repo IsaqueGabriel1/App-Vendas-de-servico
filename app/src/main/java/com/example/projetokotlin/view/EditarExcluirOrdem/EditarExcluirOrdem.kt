@@ -21,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class EditarExcluirOrdem : AppCompatActivity() {
     private lateinit var binding: ActivityTelaEmpresaServicoBinding
     private val db = FirebaseFirestore.getInstance()
-
+    var status:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTelaEmpresaServicoBinding.inflate(layoutInflater)
@@ -50,7 +50,6 @@ class EditarExcluirOrdem : AppCompatActivity() {
                             binding.editPorte.setText("")
                             binding.editValor.setText("")
                         }
-
                     }
                     .addOnFailureListener { exception ->
                         Log.w("DB", "Error getting documents: ", exception)
@@ -87,8 +86,22 @@ class EditarExcluirOrdem : AppCompatActivity() {
             binding.btnExcluir.setOnClickListener{
                 caixaDeMensagem("Realmente deseja excluir este registro?")
             }
+
+            binding.btnCancelar.setOnClickListener{
+                if(status != "Aberto"){
+                    db.collection("Servico").document(binding.editDescricao.text.toString())
+                        .update("status", "Cancelado")
+                        .addOnSuccessListener {
+                            msgGenerica("Serviço Cancelado!")
+                        }
+                        .addOnFailureListener{
+                            msgGenerica("Não foi possivel rejeitar esse servico, tente mais tarde")
+                        }
+                }
+            }
         }
     }
+
     private fun msgGenerica(msg: String){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Alerta!")
@@ -101,9 +114,12 @@ class EditarExcluirOrdem : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Alerta de alteração")
             .setMessage("Registro editado com sucesso!")
-            val voltarTelaLogin = Intent(this, telaNavegacao:: class.java)
-            startActivity(voltarTelaLogin)
-            finish()
+            .setPositiveButton("OK"){
+                    dialog, whitch -> val voltarTelaLogin = Intent(this, telaNavegacao:: class.java)
+                startActivity(voltarTelaLogin)
+                finish()
+            }
+
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }
@@ -123,7 +139,8 @@ class EditarExcluirOrdem : AppCompatActivity() {
         val descricao = intent.getStringExtra("descricao")
         val valor = intent.getStringExtra("valor")
         val porte = intent.getStringExtra("porte")
-
+        val status = intent.getStringExtra("status")
+        this.status = status.toString()
         //função para colocar dados nos inputs
         setaInput(descricao.toString(),valor.toString(),porte.toString())
     }

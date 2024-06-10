@@ -78,7 +78,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:maxLines="1"
-            android:inputType="number"/>
+            android:inputType="numberDecimal"/>
 
 
         <androidx.appcompat.widget.AppCompatButton

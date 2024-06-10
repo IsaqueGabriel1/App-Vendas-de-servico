@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/backgroud"
-        tools:context=".view.formcadastro.FormCadastro">
+        tools:context=".view.inicioEmpresa.telaInicialEmpresa">
 
         <TextView
             android:id="@+id/btn_deslogar"
@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tela de navegação"
+            android:text="Gestão da empresa"
             android:textSize="25dp"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -41,10 +41,10 @@
             />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btbCadastrarServico"
+            android:id="@+id/btbServico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gerar nova ordem de serviço"
+            android:text="Gerencie as ordens dos clientes aqui!"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"
@@ -53,35 +53,36 @@
             android:layout_marginTop="50dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-
-            />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btbServico"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Acompanhar ordens de serviço"
-            android:layout_gravity="center"
-            android:background="@drawable/backgroud_buttom"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
             />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btbTelaCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Avalie o serviço prestado aqui!"
+            android:text="Veja as avaliações dos clientes!"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            />
+
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_redefinirSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Redefinição de senha"
+            android:layout_gravity="center"
+            android:background="@drawable/backgroud_buttom"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             />
