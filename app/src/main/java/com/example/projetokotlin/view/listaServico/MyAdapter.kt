@@ -22,19 +22,42 @@ import com.google.firebase.firestore.FirebaseFirestore
 class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context: Context):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     private val db = FirebaseFirestore.getInstance()
     inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
-        val cliente: TextView = itemView.findViewById(R.id.editCliente)
-        val descricao: TextView = itemView.findViewById(R.id.editdescricao)
-        val valor: TextView = itemView.findViewById(R.id.editValor)
-        val porte: TextView = itemView.findViewById(R.id.editPorteSys)
-        val status: TextView = itemView.findViewById(R.id.editStatus)
+        var cliente: TextView
+        var descricao: TextView
+        var valor: TextView
+        var porte: TextView
+        var status: TextView
+        var btn_edit:Button
 
         init {
-            val email = Firebase.auth.currentUser
+            cliente = itemView.findViewById(R.id.editCliente)
+            descricao = itemView.findViewById(R.id.editdescricao)
+            valor = itemView.findViewById(R.id.editValor)
+            porte = itemView.findViewById(R.id.editPorteSys)
+            status = itemView.findViewById(R.id.editStatus)
+            btn_edit = itemView.findViewById(R.id.btn_editar)
+            btn_edit.setOnClickListener{
+                teste()
+            }
 
+
+
+            val email = Firebase.auth.currentUser
             email?.let {
-                itemView.setOnClickListener {
-                    if (email.email == "empresa@gmail.com") {
-                        if (status.text.toString() == "Aguardando analise" || status.text.toString() == "Rejeitado" || status.text.toString() == "Em andamento") {
+                if(email.email == "empresa@gmail.com"){
+                    btn_edit.setText("Clique aqui para aceitar/finalizar Ordem!")
+                }else{
+                    btn_edit.setText("Clique aqui para gerenciar sua ordem!")
+                }
+            }
+        }
+
+        private fun teste(){
+            val email = Firebase.auth.currentUser
+            email?.let {
+                if (email.email == "empresa@gmail.com") {
+                    if(status.text.toString() != "Cancelado"){
+                        if (status.text.toString() == "Aguardando analise" || status.text.toString() == "Aberto") {
                             val intent = Intent(context, GestaoDeOrdem::class.java)
                             intent.putExtra("descricao", descricao.text.toString())
                             intent.putExtra("valor", valor.text.toString())
@@ -44,18 +67,31 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
                         } else {
                             mensagem("Esse serviço já foi Finalizado!", false)
                         }
-                    } else {
-                        //pega a referencia da atividade ListarServico para ir para a tela de edicao ser ordem
-                        val intent = Intent(context, EditarExcluirOrdem::class.java)
-                        intent.putExtra("descricao", descricao.text.toString())
-                        intent.putExtra("valor", valor.text.toString())
-                        intent.putExtra("porte", porte.text.toString())
-                        context.startActivity(intent)
+                    }else{
+                        mensagem("Esse serviço foi cancelado pelo cliente!", false)
                     }
+                } else {
+                    if(status.text.toString() == "Aberto"){
+                        mensagem("Esse serviço já esta sendo executado pela empresa, não pode ser editado ou excluido", false)
+                    }else{
+                        if(status.text.toString() == "Aguardando analise" || status.text.toString() == "Cancelado"){
+                            //pega a referencia da atividade ListarServico para ir para a tela de edicao ser ordem
+                            val intent = Intent(context, EditarExcluirOrdem::class.java)
+                            intent.putExtra("descricao", descricao.text.toString())
+                            intent.putExtra("valor", valor.text.toString())
+                            intent.putExtra("porte", porte.text.toString())
+                            intent.putExtra("status",status.text.toString())
+                            context.startActivity(intent)
+                        }else{
+                            mensagem("Você não pode editar essa ordem pois, ela já foi finalizada ou Cancelada",false)
+                        }
+                    }
+
                 }
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.lista_item_cliente, parent,false)
@@ -74,19 +110,14 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
         holder.porte.text = servicoLista[position].porteSistema
     }
 
-    private fun contratarServico(descricao:String){
-        db.collection("Servico").document("Ordem:"+descricao)
-            .update("status","Em Andamento")
-            .addOnSuccessListener {
-                mensagem("Ordem aceita com sucesso!",true)
-            }
-    }
-
     private fun mensagem(msg:String, sucesso:Boolean){
         val builder = AlertDialog.Builder(context)
         if(sucesso == true){
             builder.setTitle("Alerta!")
                 .setMessage(msg)
+                .setPositiveButton("OK"){
+                        dialog, whitch ->
+                }
         }else{
             builder.setTitle("Alerta!")
                 .setMessage(msg)
@@ -95,4 +126,6 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }
+
+
 }
