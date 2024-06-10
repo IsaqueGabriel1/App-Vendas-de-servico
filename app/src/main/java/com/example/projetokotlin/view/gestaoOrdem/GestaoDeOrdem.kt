@@ -10,8 +10,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.projetokotlin.R
 import com.example.projetokotlin.databinding.ActivityGerarNovaOrdemBinding
 import com.example.projetokotlin.databinding.ActivityGestaoDeOrdemBinding
+import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
 import com.example.projetokotlin.view.listaServico.ListaServico
 import com.example.projetokotlin.view.navegacao.telaNavegacao
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class GestaoDeOrdem : AppCompatActivity() {
@@ -30,9 +33,9 @@ class GestaoDeOrdem : AppCompatActivity() {
         }
         recuperarDados()
         binding.btnAceitar.setOnClickListener {
-            if (status != "Em andamento") {
+            if (status != "Aberto") {
                 db.collection("Servico").document(binding.editDescricao.text.toString())
-                    .update("status", "Em andamento")
+                    .update("status", "Aberto")
                     .addOnSuccessListener {
                         mensagem("Serviço aceito com sucesso!", true, "AVISO")
                     }
@@ -43,24 +46,18 @@ class GestaoDeOrdem : AppCompatActivity() {
                             "ERRO"
                         )
                     }
+            }else{
+                mensagem("Não é possivel aceitar essa ordem, pois já foi aceita",false,"AVISO")
             }
         }
 
-        binding.btnRejeitar.setOnClickListener{
-            if(status != "Em andamento"){
-                db.collection("Servico").document(binding.editDescricao.text.toString())
-                    .update("status", "Rejeitado")
-                    .addOnSuccessListener {
-                        mensagem("Serviço rejeitado!", true,"AVISO")
-                    }
-                    .addOnFailureListener{
-                        mensagem("Não foi possivel rejeitar esse servico, tente mais tarde", false,"ERRO")
-                    }
-            }
+        binding.btnDeslogar.setOnClickListener{
+            telaInicial()
         }
+
 
         binding.btnFinalizar.setOnClickListener{
-            if(status == "Em andamento"){
+            if(status == "Aberto"){
                 db.collection("Servico").document(binding.editDescricao.text.toString())
                     .update("status", "Finalizado")
                     .addOnSuccessListener {
@@ -95,9 +92,19 @@ class GestaoDeOrdem : AppCompatActivity() {
     }
 
     private fun telaInicial(){
-        val voltarTelaLogin = Intent(this, ListaServico:: class.java)
-        startActivity(voltarTelaLogin)
-        finish()
+        val email = Firebase.auth.currentUser
+        email?.let {
+            if(email.email == "empresa@gmail.com"){
+                val intent = Intent(this, telaInicialEmpresa::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(this, telaNavegacao::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+
     }
 
     private fun recuperarDados(){
