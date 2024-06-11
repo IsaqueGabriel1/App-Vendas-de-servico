@@ -19,7 +19,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context: Context):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(private  var servicoLista:ArrayList<Ordem>, private val context: Context):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     private val db = FirebaseFirestore.getInstance()
     inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
         var cliente: TextView
@@ -28,6 +28,7 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
         var porte: TextView
         var status: TextView
         var btn_edit:Button
+        var id_item:String
 
         init {
             cliente = itemView.findViewById(R.id.editCliente)
@@ -35,11 +36,11 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
             valor = itemView.findViewById(R.id.editValor)
             porte = itemView.findViewById(R.id.editPorteSys)
             status = itemView.findViewById(R.id.editStatus)
+            id_item = ""
             btn_edit = itemView.findViewById(R.id.btn_editar)
             btn_edit.setOnClickListener{
                 teste()
             }
-
 
 
             val email = Firebase.auth.currentUser
@@ -63,6 +64,7 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
                             intent.putExtra("valor", valor.text.toString())
                             intent.putExtra("porte", porte.text.toString())
                             intent.putExtra("status",status.text.toString())
+                            intent.putExtra("id",id_item)
                             context.startActivity(intent)
                         } else {
                             mensagem("Esse serviço já foi Finalizado!", false)
@@ -81,6 +83,7 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
                             intent.putExtra("valor", valor.text.toString())
                             intent.putExtra("porte", porte.text.toString())
                             intent.putExtra("status",status.text.toString())
+                            intent.putExtra("id",id_item)
                             context.startActivity(intent)
                         }else{
                             mensagem("Você não pode editar essa ordem pois, ela já foi finalizada ou Cancelada",false)
@@ -92,6 +95,10 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
         }
     }
 
+    fun setFilteredList(servicoLista:ArrayList<Ordem>){
+        this.servicoLista = servicoLista
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.lista_item_cliente, parent,false)
@@ -108,6 +115,7 @@ class MyAdapter(private  val servicoLista:ArrayList<Ordem>, private val context:
         holder.valor.text = servicoLista[position].valor
         holder.status.text = servicoLista[position].status
         holder.porte.text = servicoLista[position].porteSistema
+        holder.id_item = servicoLista[position].id.toString()
     }
 
     private fun mensagem(msg:String, sucesso:Boolean){

@@ -11,24 +11,34 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.projetokotlin.R
 import com.example.projetokotlin.databinding.ActivityFormLoginBinding
 import com.example.projetokotlin.view.avaliacao.avaliacaoServico
+import com.example.projetokotlin.view.cliente.Cliente
+import com.example.projetokotlin.view.cliente.infoCliente.CriarCliente.CriarCliente
+import com.example.projetokotlin.view.cliente.infoCliente.telaCliente
 import com.example.projetokotlin.view.formcadastro.FormCadastro
 import com.example.projetokotlin.view.inicioEmpresa.novaSenha.NovaSenhaEmpresa
 import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
+import com.example.projetokotlin.view.listaServico.MyAdapter
+import com.example.projetokotlin.view.listaServico.Ordem
 import com.example.projetokotlin.view.navegacao.telaNavegacao
+import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import java.text.Normalizer.Form
 
 class FormLogin : AppCompatActivity() {
 
     private lateinit var binding: ActivityFormLoginBinding
     private val auth = FirebaseAuth.getInstance()
-
+    private var db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFormLoginBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -80,11 +90,37 @@ class FormLogin : AppCompatActivity() {
             finish()
         }
 
-        private fun navegarTelainicial() {
-            val intent = Intent(this, telaNavegacao::class.java)
-            startActivity(intent)
-            finish()
-        }
+    private fun navegarTelainicial() {
+        db.collection("Cliente")
+            .whereEqualTo("Email", binding.editEmail.text.toString())
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val cliente: Cliente? = document.toObject(Cliente::class.java)
+                    if (cliente != null) {
+                        if(cliente.primeiroAcesso == true){
+                            val intent = Intent(this, CriarCliente()::class.java)
+                            intent.putExtra("id", cliente.id)
+                            startActivity(intent)
+                            finish()
+                        }else{
+                            val intent = Intent(this, telaNavegacao()::class.java)
+                            if(cliente.id != null){
+                                intent.putExtra("id", cliente.id)
+                                startActivity(intent)
+                                finish()
+                            }else{
+                                Log.w("TAG", "Erro: cliente id null")
+                            }
+
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.w("TAG", "Error getting documents: ", exception)
+            }
+    }
 
         private fun navegarInicialEmpresa() {
             val intent = Intent(this, telaInicialEmpresa()::class.java)
@@ -94,7 +130,6 @@ class FormLogin : AppCompatActivity() {
 
         override fun onStart() {
             super.onStart()
-
             val usuarioAtual = FirebaseAuth.getInstance().currentUser
             if (usuarioAtual != null) {
                 navegarTelainicial()

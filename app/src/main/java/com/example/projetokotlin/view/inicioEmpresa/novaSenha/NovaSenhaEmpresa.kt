@@ -34,7 +34,6 @@ class NovaSenhaEmpresa : AppCompatActivity() {
             binding.editEmail.setText(user?.email.toString())
         }
 
-
         binding.voltar.setOnClickListener{
             val voltarTelaLogin = Intent(this, FormLogin:: class.java)
             startActivity(voltarTelaLogin)
@@ -42,25 +41,11 @@ class NovaSenhaEmpresa : AppCompatActivity() {
         }
 
         binding.btnEnviar.setOnClickListener{
-            val user = Firebase.auth.currentUser
             val senha1 = binding.editSenha.text.toString()
             val senha2 = binding.editConfirSenha.text.toString()
             val email = binding.editEmail.text.toString()
 
-            if(binding.editEmail.text.toString() == "empresa@gmail.com"){
-                if(senha1 == senha2){
-                    user!!.updatePassword(senha1)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                caixaDeMensagem("Senha resetada com sucesso!",true)
-                            }
-                        }
-                }else{
-                    caixaDeMensagem("As senhas não coincidem!",false)
-                    binding.editSenha.setText("")
-                    binding.editConfirSenha.setText("")
-                }
-            }else{
+
                 if(binding.editEmail.text != null){
                     if(senha1 == senha2){
                         Firebase.auth.sendPasswordResetEmail(email).continueWith {
@@ -77,7 +62,7 @@ class NovaSenhaEmpresa : AppCompatActivity() {
                     }
                 }
             }
-        }
+
     }
     private fun caixaDeMensagem(msg:String, resp:Boolean){
         val builder = AlertDialog.Builder(this)

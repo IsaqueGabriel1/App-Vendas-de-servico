@@ -22,6 +22,7 @@ class EditarExcluirOrdem : AppCompatActivity() {
     private lateinit var binding: ActivityTelaEmpresaServicoBinding
     private val db = FirebaseFirestore.getInstance()
     var status:String = ""
+    var id:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTelaEmpresaServicoBinding.inflate(layoutInflater)
@@ -52,30 +53,17 @@ class EditarExcluirOrdem : AppCompatActivity() {
                         }
                     }
                     .addOnFailureListener { exception ->
-                        Log.w("DB", "Error getting documents: ", exception)
-                        msgGenerica("Erro inesperado!")
+                        msgEdit("Erro inesperado!")
                         FirebaseAuth.getInstance().signOut()
                         val voltarTelaLogin = Intent(this, telaNavegacao::class.java)
                         startActivity(voltarTelaLogin)
                         finish()
                     }
 
-            binding.btnEditar.setOnClickListener{
-                db.collection("Servico").document(binding.editDescricao.text.toString())
-                    .update(
-                        "descricao",binding.editDescricao.text.toString(),
-                        "porteSistema",binding.editPorte.text.toString(),
-                        "valor",binding.editValor.text.toString()
-                    )
-                    .addOnSuccessListener{
-                        msgEdit()
-                    }
-                    .addOnFailureListener{
-                        val exe = it.message
-                        msgGenerica("Não foi possivel editar este registro! $exe")
-                    }
-            }
 
+
+
+            //sair da sessão
             binding.btnDeslogar.setOnClickListener{
                 val voltarTelaLogin = Intent(this, ListaServico:: class.java)
                 startActivity(voltarTelaLogin)
@@ -83,37 +71,27 @@ class EditarExcluirOrdem : AppCompatActivity() {
                 limparInput()
             }
 
+            //editar item
+            binding.btnEditar.setOnClickListener{
+                caixaDeMensagem("Realmente deseja editar esse registro?", "editarRegistro")
+            }
+
+            //excluir item
             binding.btnExcluir.setOnClickListener{
-                caixaDeMensagem("Realmente deseja excluir este registro?")
+                caixaDeMensagem("Realmente deseja excluir este registro?","deletarRegistro")
             }
 
             binding.btnCancelar.setOnClickListener{
-                if(status != "Aberto"){
-                    db.collection("Servico").document(binding.editDescricao.text.toString())
-                        .update("status", "Cancelado")
-                        .addOnSuccessListener {
-                            msgGenerica("Serviço Cancelado!")
-                        }
-                        .addOnFailureListener{
-                            msgGenerica("Não foi possivel rejeitar esse servico, tente mais tarde")
-                        }
-                }
+                caixaDeMensagem("Realmente deseja cancelar este registro?","cancelarRegistro")
             }
         }
     }
 
-    private fun msgGenerica(msg: String){
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Alerta!")
-            .setMessage(msg)
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.show()
-    }
     //
-    private fun msgEdit(){
+    private fun msgEdit(msg: String){
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Alerta de alteração")
-            .setMessage("Registro editado com sucesso!")
+        builder.setTitle("ALERTA!")
+            .setMessage(msg)
             .setPositiveButton("OK"){
                     dialog, whitch -> val voltarTelaLogin = Intent(this, telaNavegacao:: class.java)
                 startActivity(voltarTelaLogin)
@@ -126,21 +104,50 @@ class EditarExcluirOrdem : AppCompatActivity() {
 
     //através da descricao da ordem, deleta o documento
     private fun deletarRegistro(){
-        db.collection("Servico").document(binding.editDescricao.text.toString())
+        db.collection("Servico").document(id)
             .delete().addOnCompleteListener {
-                val voltarTelaLogin = Intent(this, ListaServico:: class.java)
-                startActivity(voltarTelaLogin)
-                finish()
-                limparInput()
+                msgEdit("Registro deletado com sucesso!")
             }
     }
+
+    private fun editarRegistro(){
+        db.collection("Servico").document(id)
+            .update(
+                "descricao",binding.editDescricao.text.toString(),
+                "porteSistema",binding.editPorte.text.toString(),
+                "valor",binding.editValor.text.toString()
+            )
+            .addOnSuccessListener{
+                msgEdit("Registro editado com sucesso!")
+            }
+            .addOnFailureListener{
+                val exe = it.message
+                msgEdit("Não foi possivel editar este registro! $exe")
+            }
+    }
+
+    private fun cancelarRegistro(){
+        if(status != "Aberto"){
+            db.collection("Servico").document(id)
+                .update("status", "Cancelado")
+                .addOnSuccessListener {
+                    msgEdit("Serviço Cancelado!")
+                }
+                .addOnFailureListener{
+                    msgEdit("Não foi possivel rejeitar esse servico, tente mais tarde")
+                }
+        }
+    }
+
     //Recebe as informações da tela de0 listar ordens
     private fun recuperarDados(){
         val descricao = intent.getStringExtra("descricao")
         val valor = intent.getStringExtra("valor")
         val porte = intent.getStringExtra("porte")
         val status = intent.getStringExtra("status")
+        val id = intent.getStringExtra("id")
         this.status = status.toString()
+        this.id = id.toString()
         //função para colocar dados nos inputs
         setaInput(descricao.toString(),valor.toString(),porte.toString())
     }
@@ -158,15 +165,22 @@ class EditarExcluirOrdem : AppCompatActivity() {
     }
 
     //Mostra uma mensagem na tela
-    private fun caixaDeMensagem(msg:String){
+    private fun caixaDeMensagem(msg:String,funcao:String) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Alerta de alteração")
             .setMessage(msg)
-            .setPositiveButton("Sim"){dialog, whitch ->
-                Toast.makeText(this,"Sucesso!",Toast.LENGTH_SHORT).show()
-                deletarRegistro()
+            .setPositiveButton("Sim") { dialog, whitch ->
+                if (funcao == "editarRegistro") {
+                    editarRegistro()
+                }
+                if(funcao == "deletarRegistro"){
+                    deletarRegistro()
+                }
+                if(funcao == "cancelarRegistro"){
+                    cancelarRegistro()
+                }
             }
-            .setNegativeButton("Não"){dialog, whitch ->
+            .setNegativeButton("Não") { dialog, whitch ->
                 dialog.dismiss()
             }
         val alertDialog: AlertDialog = builder.create()

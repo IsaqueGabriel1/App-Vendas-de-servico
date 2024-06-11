@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.core.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -11,53 +13,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/backgroud"
-        tools:context=".view.cliente.editarOrdem.EditarOrdem">
-
-
-        <TextView
-            android:id="@+id/btn_deslogar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="330dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/ic_voltar_nav"
-            android:textStyle="bold"
-            tools:ignore="MissingConstraints" />
+        tools:context=".view.cliente.infoCliente.telaCliente">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ordem"
+            android:text="Área do cliente"
             android:textSize="40dp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="150dp"
             android:layout_marginBottom="20dp"
             />
 
-        <TextView
-            android:id="@+id/editDescricao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Descricao"
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:layout_gravity="start"
-            android:padding="15dp"
-            android:background="@drawable/fundoinput_text"
-            android:layout_marginTop="40dp"
-
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            />
-
         <EditText
-            android:id="@+id/editPorte"
+            android:id="@+id/edit_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Porte"
+            android:hint="Nome"
             android:background="@drawable/fundoinput_text"
             android:textColorHint="@color/white"
             android:layout_marginTop="10dp"
@@ -66,13 +40,14 @@
             android:layout_marginEnd="20dp"
             android:maxLines="1"
             android:inputType="text"
+            android:maxLength="20"
             />
 
         <EditText
-            android:id="@+id/editValor"
+            android:id="@+id/edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Valor"
+            android:hint="@string/hint_email"
             android:background="@drawable/fundoinput_text"
             android:textColorHint="@color/white"
             android:layout_marginTop="10dp"
@@ -80,14 +55,30 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:maxLines="1"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
+            />
+
+        <EditText
+            android:id="@+id/edit_telefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefone"
+            android:background="@drawable/fundoinput_text"
+            android:textColorHint="@color/white"
+            android:layout_marginTop="10dp"
+            android:padding="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:maxLines="1"
+            android:inputType="phone"
+            android:maxLength="14"
             />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_editar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar"
+            android:text="Editar registros"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom_editar"
             android:textColor="@color/corFunAzul"
@@ -98,12 +89,11 @@
             android:layout_marginEnd="20dp"
             />
 
-
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_cancelar"
+            android:id="@+id/btn_desativar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancelar ordem"
+            android:text="Desativar cliente"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom_editar"
             android:textColor="@color/corFunAzul"
@@ -118,7 +108,7 @@
             android:id="@+id/btn_excluir"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Excluir"
+            android:text="Deletar cliente"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom_excluir"
             android:textColor="@color/white"
@@ -128,8 +118,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             />
-
-
 
     </LinearLayout>
 
