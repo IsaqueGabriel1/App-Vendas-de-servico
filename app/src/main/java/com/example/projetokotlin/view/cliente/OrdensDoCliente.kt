@@ -30,7 +30,7 @@ class OrdensDoCliente : AppCompatActivity() {
     private lateinit var binding: ActivityServicosClienteBinding
     private lateinit var  recyclerView: RecyclerView
     private lateinit var listaServicoContratado: ArrayList<Ordem>
-
+    private var filtro:String = ""
     private var db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +61,23 @@ class OrdensDoCliente : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         listaServicoContratado = arrayListOf()
 
+        pesquisarAvaliacao()
+
+        binding.btnPesquisar.setOnClickListener{
+            this.filtro = binding.inpPesquisa.text.toString()
+            listaServicoContratado.clear()
+            pesquisarAvaliacao()
+        }
+
+        binding.btnLimpar.setOnClickListener{
+            this.filtro = ""
+            binding.inpPesquisa.setText("")
+            listaServicoContratado.clear()
+            pesquisarAvaliacao()
+        }
+    }
+
+    private fun pesquisarAvaliacao(){
         db = FirebaseFirestore.getInstance()
         val email = Firebase.auth.currentUser
         email?.let {
@@ -73,7 +90,13 @@ class OrdensDoCliente : AppCompatActivity() {
                             val servico: Ordem? = data.toObject(Ordem::class.java)
                             if (servico != null) {
                                 if(servico.status.toString() == "Finalizado"){
-                                    listaServicoContratado.add(servico)
+                                    if(filtro != ""){
+                                        if(servico.status == filtro || servico.descricao == filtro || servico.comentario == filtro || servico.numeroStars.toString() == filtro){
+                                            listaServicoContratado.add(servico)
+                                        }
+                                    }else{
+                                        listaServicoContratado.add(servico)
+                                    }
                                 }
                             }
                         }

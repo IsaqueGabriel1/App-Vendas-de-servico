@@ -13,6 +13,21 @@
         android:theme="@style/Theme.ProjetoKotlin"
         tools:targetApi="31">
         <activity
+            android:name=".view.telaAdm.Adm"
+            android:exported="false" />
+        <activity
+            android:name=".view.cliente.infoCliente.CriarCliente.listarCliente.ListarCliente"
+            android:exported="false" />
+        <activity
+            android:name=".view.cliente.infoCliente.CriarCliente.CriarCliente"
+            android:exported="false" />
+        <activity
+            android:name=".view.cliente.infoCliente.telaCriarCliente"
+            android:exported="false" />
+        <activity
+            android:name=".view.cliente.infoCliente.telaCliente"
+            android:exported="false" />
+        <activity
             android:name=".view.inicioEmpresa.novaSenha.NovaSenhaEmpresa"
             android:exported="false" />
         <activity

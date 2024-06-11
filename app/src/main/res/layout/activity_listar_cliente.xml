@@ -9,20 +9,6 @@
     tools:context=".view.listaServico.ListaServico">
 
 
-    <TextView
-        android:id="@+id/btn_voltar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="350dp"
-        android:background="@drawable/ic_voltar_nav"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-
     <EditText
         android:id="@+id/inp_pesquisa"
         android:layout_width="match_parent"
@@ -66,12 +52,25 @@
         android:background="@drawable/backgroud_buttom_editar"
         android:text="Limpar"
         android:textAllCaps="false"
+
         android:textColor="@color/corFunAzul"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/btn_pesquisar"
         app:layout_constraintTop_toBottomOf="@+id/inp_pesquisa"
         tools:ignore="MissingConstraints" />
 
+    <TextView
+        android:id="@+id/btn_voltar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="350dp"
+        android:background="@drawable/ic_voltar_nav"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleview"
@@ -79,7 +78,7 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/lista_item_cliente"
+        tools:listitem="@layout/lista_cliente_item"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -91,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="Lista de avaliações"
+        android:text="Lista de cliente"
         android:textStyle="bold"
         android:textSize="25dp"
         android:textColor="@color/white"
