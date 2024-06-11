@@ -35,79 +35,77 @@ class FormLogin : AppCompatActivity() {
             insets
         }
 
-        binding.btbEntrar.setOnClickListener{
+        binding.btbEntrar.setOnClickListener {
             val email = binding.editEmail.text.toString()
             val senha = binding.editSenha.text.toString()
 
-            if(email.isEmpty() || senha.isEmpty()){
+            if (email.isEmpty() || senha.isEmpty()) {
                 mensagem("Preencha todos os campos!!!", "Aviso")
-            }else{
-                auth.signInWithEmailAndPassword(email,senha).addOnCompleteListener{autentic ->
-                    if(autentic.isSuccessful){
-                        if (email == "empresa@gmail.com"){
+            } else {
+                auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener { autentic ->
+                    if (autentic.isSuccessful) {
+                        if (email == "empresa@gmail.com") {
                             navegarInicialEmpresa()
-                        }else{
+                        } else {
                             navegarTelainicial()
                         }
-                    }else{
+                    } else {
                         mensagem("E-mail ou senha incorretos!", "Aviso")
                         binding.editEmail.setText("")
                         binding.editSenha.setText("")
                     }
                 }
-                    .addOnFailureListener{
-                        Log.d("TAG","Não foi possivel realizar fazer login, tente novamente mais tarde!")
+                    .addOnFailureListener {
+                        Log.d(
+                            "TAG",
+                            "Não foi possivel realizar fazer login, tente novamente mais tarde!"
+                        )
                     }
             }
         }
 
-        binding.telaCadastrar.setOnClickListener{view ->
-            val intent = Intent(this,FormCadastro::class.java)
-            startActivity(intent )
+        binding.telaCadastrar.setOnClickListener { view ->
+            val intent = Intent(this, FormCadastro::class.java)
+            startActivity(intent)
         }
 
-        binding.btnRecuperarSenha.setOnClickListener{task->
-            val email = binding.editEmail.text.toString()
-            if(email == ""){
-                mensagem("O campo email está vazio. Por favor, digite um email valido!", "Mensagem de erro")
-            }else{
-               redefinirSenha()
+        binding.btnRecuperarSenha.setOnClickListener { task ->
+            redefinirSenha()
+        }
+    }
+        //redefine a senha do usuario se existir
+        private fun redefinirSenha() {
+            val intent = Intent(this, NovaSenhaEmpresa::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        private fun navegarTelainicial() {
+            val intent = Intent(this, telaNavegacao::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        private fun navegarInicialEmpresa() {
+            val intent = Intent(this, telaInicialEmpresa()::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        override fun onStart() {
+            super.onStart()
+
+            val usuarioAtual = FirebaseAuth.getInstance().currentUser
+            if (usuarioAtual != null) {
+                navegarTelainicial()
             }
         }
-    }
 
-    //redefine a senha do usuario se existir
-    private fun redefinirSenha(){
-        val intent = Intent(this,NovaSenhaEmpresa::class.java)
-        startActivity(intent)
-        finish()
-    }
-    private fun navegarTelainicial(){
-        val intent = Intent(this,telaNavegacao::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun navegarInicialEmpresa(){
-        val intent = Intent(this,telaInicialEmpresa()::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    override fun onStart(){
-        super.onStart()
-
-        val usuarioAtual = FirebaseAuth.getInstance().currentUser
-        if(usuarioAtual != null){
-            navegarTelainicial()
+        private fun mensagem(msg: String, titulo: String) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle(titulo)
+                .setMessage(msg)
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
         }
-    }
-
-    private fun mensagem(msg:String, titulo:String){
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(titulo)
-            .setMessage(msg)
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.show()
-    }
 }

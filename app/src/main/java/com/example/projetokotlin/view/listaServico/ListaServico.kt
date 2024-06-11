@@ -2,6 +2,7 @@ package com.example.projetokotlin.view.listaServico
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projetokotlin.R
 import com.example.projetokotlin.databinding.ActivityListaServicoBinding
 import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
+import com.example.projetokotlin.view.listaServico.uitel.LoadingDialog
 import com.example.projetokotlin.view.navegacao.telaNavegacao
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -30,6 +32,14 @@ class ListaServico : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_lista_servico)
+        val loading = LoadingDialog(this)
+        loading.startLoading()
+        val handler = Handler()
+        handler.postDelayed(object:Runnable{
+            override  fun run(){
+                loading.isDismiss()
+            }
+        },2000)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

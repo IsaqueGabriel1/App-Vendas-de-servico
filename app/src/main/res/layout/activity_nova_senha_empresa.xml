@@ -16,6 +16,18 @@
         tools:context=".view.formcadastro.FormCadastro">
 
         <TextView
+            android:id="@+id/voltar"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="350dp"
+            android:background="@drawable/ic_voltar_nav"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Redefinir senha"
