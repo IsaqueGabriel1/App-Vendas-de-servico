@@ -21,11 +21,13 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.random.Random
 
 class FormCadastro : AppCompatActivity() {
     private lateinit var binding: ActivityFormCadastroBinding
     private var auth = FirebaseAuth.getInstance()
-
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,23 +39,33 @@ class FormCadastro : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         binding.btbCadastrar.setOnClickListener{
             cadastrarUser()
         }
     }
 
-
     //essa função realiza o cadastro do novo usuario no firebase auth
     private fun cadastrarUser(){
         val email = binding.editEmail.text.toString()
         val senha = binding.editSenha.text.toString()
-
+        val id = randomCode()
         if (email.isEmpty() || senha.isEmpty()){
           mensagem("Preencha todos os campos", "AVISO!",false)
         }else{
             auth.createUserWithEmailAndPassword(email,senha).addOnCompleteListener{cadastro ->
                 if(cadastro.isSuccessful){
+                    val cliente = hashMapOf(
+                        "Nome" to "",
+                        "Email" to email,
+                        "Telefone" to "",
+                        "id" to id,
+                        "status" to "Ativo",
+                        "primeiroAcesso" to true
+                    )
+
+                    db.collection("Cliente").document(id)
+                        .set(cliente)
+
                     mensagem("Usuario cadastrado com sucesso!", "Aviso",true)
                     binding.editEmail.setText("")
                     binding.editSenha.setText("")
@@ -89,6 +101,13 @@ class FormCadastro : AppCompatActivity() {
             }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
+    }
+
+    private fun randomCode():String{
+        val r5 = Random.nextInt(0,2147483647)
+
+        val numero = "$r5"
+        return numero
     }
 
 }

@@ -3,12 +3,15 @@ package com.example.projetokotlin.view.listaServico
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Button
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,11 +25,15 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import org.intellij.lang.annotations.Language
+import java.util.Locale
 
 class ListaServico : AppCompatActivity() {
     private lateinit var  recyclerView: RecyclerView
     private lateinit var TextViewVoltar: TextView
+    private lateinit var searchView: SearchView
     private lateinit var servicoList: ArrayList<Ordem>
+
     private var db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +54,44 @@ class ListaServico : AppCompatActivity() {
         }
 
 
+        val searchView = findViewById<SearchView>(R.id.seachView)
+        searchView.setOnQueryTextListener(object : OnQueryTextListener,
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false;
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false;
+            }
+
+        })
+
         recyclerView = findViewById(R.id.recycleview)
         recyclerView.layoutManager =  LinearLayoutManager(this)
         servicoList = arrayListOf()
 
         db = FirebaseFirestore.getInstance()
+        buscar("")
+
+        TextViewVoltar = findViewById(R.id.voltar)
+        TextViewVoltar.setOnClickListener{
+            telaInicial()
+        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                //buscar mudando o filtro dentro do banco
+                buscar(newText)
+                return true
+            }
+        })
+    }
+
+    private fun buscar(descricao:String?){
         val email = Firebase.auth.currentUser
         email?.let {
 
@@ -63,8 +103,15 @@ class ListaServico : AppCompatActivity() {
                         if (!it.isEmpty) {
                             for (data in it.documents) {
                                 val servico: Ordem? = data.toObject(Ordem::class.java)
-                                if (servico != null && (servico.status.toString() == "Aberto" || servico?.status.toString() == "Aguardando analise")) {
-                                    servico?.let { it1 -> servicoList.add(it1) }
+                                if (servico != null &&  (servico.status.toString() == "Aberto" || servico?.status.toString() == "Aguardando analise")) {
+                                    if(descricao != ""){
+                                        if(descricao == servico.descricao.toString()){
+                                            servico?.let { it1 -> servicoList.add(it1) }
+                                        }
+                                    }else{
+                                        servico?.let { it1 -> servicoList.add(it1) }
+                                    }
+
                                 }
                             }
                             recyclerView.adapter = MyAdapter(servicoList, this)
@@ -97,10 +144,26 @@ class ListaServico : AppCompatActivity() {
                     }
             }
         }
+    }
 
-        TextViewVoltar = findViewById(R.id.voltar)
-        TextViewVoltar.setOnClickListener{
-            telaInicial()
+    private fun filterList(query:String?){
+        if(query!=null){
+            val filteredList = ArrayList<Ordem>()
+
+            for (data in servicoList) {
+                if (data.descricao == query) {
+                    val email = Firebase.auth.currentUser
+                    email?.let {
+                        filteredList.add(data)
+                    }
+                }
+            }
+            if(filteredList.isEmpty()){
+                Toast.makeText(this,"No data found", Toast.LENGTH_SHORT).show()
+            }else{
+                MyAdapter(servicoList,this).setFilteredList(filteredList)
+
+            }
         }
     }
 
