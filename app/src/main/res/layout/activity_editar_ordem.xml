@@ -15,18 +15,17 @@
 
 
 
-        <Button
-            android:id="@+id/btn_deslogar"
+        <TextView
+            android:id="@+id/voltar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tela inicial"
-            android:layout_gravity="end"
-            android:layout_margin="10dp"
-            android:backgroundTint="@color/white"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="350dp"
+            android:background="@drawable/ic_voltar_nav"
             android:textColor="@color/black"
-            android:textAllCaps="false"
             android:textStyle="bold"
-            />
+            android:layout_marginStart="20dp"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:layout_width="wrap_content"

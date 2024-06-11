@@ -92,7 +92,7 @@ class EditarExcluirOrdem : AppCompatActivity() {
                     db.collection("Servico").document(binding.editDescricao.text.toString())
                         .update("status", "Cancelado")
                         .addOnSuccessListener {
-                            msgGenerica("Serviço rejeitado!")
+                            msgGenerica("Serviço Cancelado!")
                         }
                         .addOnFailureListener{
                             msgGenerica("Não foi possivel rejeitar esse servico, tente mais tarde")
@@ -114,9 +114,12 @@ class EditarExcluirOrdem : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Alerta de alteração")
             .setMessage("Registro editado com sucesso!")
-            val voltarTelaLogin = Intent(this, telaNavegacao:: class.java)
-            startActivity(voltarTelaLogin)
-            finish()
+            .setPositiveButton("OK"){
+                    dialog, whitch -> val voltarTelaLogin = Intent(this, telaNavegacao:: class.java)
+                startActivity(voltarTelaLogin)
+                finish()
+            }
+
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }

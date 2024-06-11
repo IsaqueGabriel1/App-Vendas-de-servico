@@ -2,6 +2,7 @@ package com.example.projetokotlin.view.cliente
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +17,7 @@ import com.example.projetokotlin.databinding.ActivityTelaEmpresaServicoBinding
 import com.example.projetokotlin.view.formlogin.FormLogin
 import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
 import com.example.projetokotlin.view.listaServico.ListaServico
+import com.example.projetokotlin.view.listaServico.uitel.LoadingDialog
 import com.example.projetokotlin.view.navegacao.telaNavegacao
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +36,17 @@ class OrdensDoCliente : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityServicosClienteBinding.inflate(layoutInflater)
         enableEdgeToEdge()
+
         setContentView(binding.root)
+        val loading = LoadingDialog(this)
+        loading.startLoading()
+        val handler = Handler()
+        handler.postDelayed(object:Runnable{
+            override  fun run(){
+                loading.isDismiss()
+            }
+        },2000)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -99,6 +111,5 @@ class OrdensDoCliente : AppCompatActivity() {
                 finish()
             }
         }
-
     }
 }

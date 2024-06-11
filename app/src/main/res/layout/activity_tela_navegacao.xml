@@ -22,7 +22,7 @@
             android:id="@+id/btn_deslogar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="330dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/ic_voltar_nav"
             android:textStyle="bold"
@@ -60,7 +60,7 @@
             android:id="@+id/btbServico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ordens pendentes de analise"
+            android:text="Acompanhar ordens de serviço"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"
@@ -70,6 +70,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btbTelaCliente"
             android:layout_width="match_parent"

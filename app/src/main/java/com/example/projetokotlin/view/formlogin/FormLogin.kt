@@ -67,14 +67,8 @@ class FormLogin : AppCompatActivity() {
         }
 
         binding.btnRecuperarSenha.setOnClickListener{task->
-            val email = binding.editEmail.text.toString()
-            if(email == ""){
-                mensagem("O campo email está vazio. Por favor, digite um email valido!", "Mensagem de erro")
-            }else{
-               redefinirSenha()
-            }
+            redefinirSenha()
         }
-    }
 
     //redefine a senha do usuario se existir
     private fun redefinirSenha(){

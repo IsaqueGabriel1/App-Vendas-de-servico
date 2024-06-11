@@ -34,6 +34,13 @@ class NovaSenhaEmpresa : AppCompatActivity() {
             binding.editEmail.setText(user?.email.toString())
         }
 
+
+        binding.voltar.setOnClickListener{
+            val voltarTelaLogin = Intent(this, FormLogin:: class.java)
+            startActivity(voltarTelaLogin)
+            finish()
+        }
+
         binding.btnEnviar.setOnClickListener{
             val user = Firebase.auth.currentUser
             val senha1 = binding.editSenha.text.toString()
@@ -45,11 +52,13 @@ class NovaSenhaEmpresa : AppCompatActivity() {
                     user!!.updatePassword(senha1)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                caixaDeMensagem("Senha resetada com sucesso!")
+                                caixaDeMensagem("Senha resetada com sucesso!",true)
                             }
                         }
                 }else{
-                    caixaDeMensagem("As senhas não coincidem!")
+                    caixaDeMensagem("As senhas não coincidem!",false)
+                    binding.editSenha.setText("")
+                    binding.editConfirSenha.setText("")
                 }
             }else{
                 if(binding.editEmail.text != null){
@@ -57,25 +66,29 @@ class NovaSenhaEmpresa : AppCompatActivity() {
                         Firebase.auth.sendPasswordResetEmail(email).continueWith {
                                 task ->
                             if(task.isCanceled){
-                                caixaDeMensagem("Não foi possivel enviar o email, tente novamente mais tarde!")
+                                caixaDeMensagem("Não foi possivel enviar o email, tente novamente mais tarde!",true)
                             }
-                            caixaDeMensagem("Se o email informado for valido, enviaremos um link para redefinir sua senha!")
+                            caixaDeMensagem("Se o email informado for valido, enviaremos um link para redefinir sua senha!",true)
                         }
                     }else{
-                        caixaDeMensagem("As senhas não coincidem!")
+                        caixaDeMensagem("As senhas não coincidem!",false)
+                        binding.editSenha.setText("")
+                        binding.editConfirSenha.setText("")
                     }
                 }
             }
         }
     }
-    private fun caixaDeMensagem(msg:String){
+    private fun caixaDeMensagem(msg:String, resp:Boolean){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Alerta de alteração")
             .setMessage(msg)
             .setPositiveButton("OK"){dialog, whitch ->
-                val voltarTelaLogin = Intent(this, FormLogin:: class.java)
-                startActivity(voltarTelaLogin)
-                finish()
+                if(resp){
+                    val voltarTelaLogin = Intent(this, FormLogin:: class.java)
+                    startActivity(voltarTelaLogin)
+                    finish()
+                }
             }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()

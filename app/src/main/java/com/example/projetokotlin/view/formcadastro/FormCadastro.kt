@@ -50,11 +50,11 @@ class FormCadastro : AppCompatActivity() {
         val senha = binding.editSenha.text.toString()
 
         if (email.isEmpty() || senha.isEmpty()){
-          mensagem("Preencha todos os campos", "AVISO!")
+          mensagem("Preencha todos os campos", "AVISO!",false)
         }else{
             auth.createUserWithEmailAndPassword(email,senha).addOnCompleteListener{cadastro ->
                 if(cadastro.isSuccessful){
-                    mensagem("Usuario cadastrado com sucesso!", "Aviso")
+                    mensagem("Usuario cadastrado com sucesso!", "Aviso",true)
                     binding.editEmail.setText("")
                     binding.editSenha.setText("")
                 }
@@ -66,7 +66,7 @@ class FormCadastro : AppCompatActivity() {
                     is FirebaseNetworkException -> "Sem conexao com a internet!"
                     else -> "Erro ao cadastrar usuario";
                 }
-                mensagem("Erro: $mensagemErro","Alerta!")
+                mensagem("Erro: $mensagemErro","Alerta!",false)
             }
         }
     }
@@ -77,12 +77,15 @@ class FormCadastro : AppCompatActivity() {
         finish()
     }
 
-    private fun mensagem(msg:String, titulo:String){
+    private fun mensagem(msg:String, titulo:String, resp:Boolean){
         val builder = AlertDialog.Builder(this)
         builder.setTitle(titulo)
             .setMessage(msg)
             .setPositiveButton("OK"){
                     dialog, whitch ->
+                if(resp){
+                    navegarTelainicial()
+                }
             }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
