@@ -69,7 +69,6 @@ class FormLogin : AppCompatActivity() {
         binding.btnRecuperarSenha.setOnClickListener{task->
             redefinirSenha()
         }
-    }
 
     //redefine a senha do usuario se existir
     private fun redefinirSenha(){
