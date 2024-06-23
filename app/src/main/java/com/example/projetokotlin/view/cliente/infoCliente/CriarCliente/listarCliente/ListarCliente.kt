@@ -17,6 +17,7 @@ import com.example.projetokotlin.view.cliente.MyAdapter
 import com.example.projetokotlin.view.cliente.Ordem
 import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
 import com.example.projetokotlin.view.navegacao.telaNavegacao
+import com.example.projetokotlin.view.telaAdm.Adm
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -108,14 +109,21 @@ class ListarCliente : AppCompatActivity() {
     private fun telaInicial(){
         val email = Firebase.auth.currentUser
         email?.let {
-            if(email.email == "empresa@gmail.com"){
-                val intent = Intent(this, telaInicialEmpresa::class.java)
+
+            if(email.email == "adm@gmail.com"){
+                val intent = Intent(this, Adm()::class.java)
                 startActivity(intent)
                 finish()
             }else{
-                val intent = Intent(this, telaNavegacao::class.java)
-                startActivity(intent)
-                finish()
+                if(email.email == "empresa@gmail.com"){
+                    val intent = Intent(this, telaInicialEmpresa::class.java)
+                    startActivity(intent)
+                    finish()
+                }else{
+                    val intent = Intent(this, telaNavegacao::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
     }

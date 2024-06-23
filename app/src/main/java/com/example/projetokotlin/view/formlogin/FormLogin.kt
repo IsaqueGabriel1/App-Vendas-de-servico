@@ -20,6 +20,8 @@ import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
 import com.example.projetokotlin.view.listaServico.MyAdapter
 import com.example.projetokotlin.view.listaServico.Ordem
 import com.example.projetokotlin.view.navegacao.telaNavegacao
+
+import com.example.projetokotlin.view.telaAdm.Adm
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -54,11 +56,17 @@ class FormLogin : AppCompatActivity() {
             } else {
                 auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener { autentic ->
                     if (autentic.isSuccessful) {
-                        if (email == "empresa@gmail.com") {
-                            navegarInicialEmpresa()
-                        } else {
-                            navegarTelainicial()
+
+                        if(email == "adm@gmail.com"){
+                            telaAdm()
+                        }else{
+                            if (email == "empresa@gmail.com") {
+                                navegarInicialEmpresa()
+                            } else {
+                                navegarTelainicial()
+                            }
                         }
+
                     } else {
                         mensagem("E-mail ou senha incorretos!", "Aviso")
                         binding.editEmail.setText("")
@@ -91,6 +99,19 @@ class FormLogin : AppCompatActivity() {
         }
 
 
+    private fun telaAdm(){
+        val intent = Intent(this, Adm()::class.java)
+        startActivity(intent)
+        finish()
+    }
+        //redefine a senha do usuario se existir
+        private fun redefinirSenha() {
+            val intent = Intent(this, NovaSenhaEmpresa::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+
     private fun navegarTelainicial() {
         db.collection("Cliente")
             .whereEqualTo("Email", binding.editEmail.text.toString())
@@ -105,15 +126,19 @@ class FormLogin : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }else{
-                            val intent = Intent(this, telaNavegacao()::class.java)
-                            if(cliente.id != null){
-                                intent.putExtra("id", cliente.id)
-                                startActivity(intent)
-                                finish()
-                            }else{
-                                Log.w("TAG", "Erro: cliente id null")
-                            }
 
+                            if(cliente.status != "Ativo"){
+                                mensagem("Este cliente está com sua conta desativada, entre em contato com o ADM para mais informações","ALERTA")
+                            }else{
+                                if(cliente.id != null){
+                                    val intent = Intent(this, telaNavegacao()::class.java)
+                                    intent.putExtra("id", cliente.id)
+                                    startActivity(intent)
+                                    finish()
+                                }else{
+                                    Log.w("TAG", "Erro: cliente id null")
+                                }
+                            }
                         }
                     }
                 }

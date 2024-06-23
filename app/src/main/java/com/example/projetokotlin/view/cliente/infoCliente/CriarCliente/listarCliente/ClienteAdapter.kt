@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
+
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projetokotlin.R
 import com.example.projetokotlin.view.avaliacao.avaliacaoServico
@@ -15,7 +17,10 @@ import com.example.projetokotlin.view.cliente.Ordem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
+import com.google.firebase.firestore.FirebaseFirestore
+
 class ClienteAdapter(private val ListaCliente:ArrayList<ClienteModel>, private val context: Context):RecyclerView.Adapter<ClienteAdapter.MyViewHolder>(){
+    private var db = FirebaseFirestore.getInstance()
 
     inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var Email:TextView
@@ -23,12 +28,43 @@ class ClienteAdapter(private val ListaCliente:ArrayList<ClienteModel>, private v
         var Telefone: TextView
         var Status: TextView
         var id:String
+
+        var btnAtivar:Button
+        var btnDesativar:Button
+      
         init {
             Email = itemView.findViewById(R.id.Email)
             Nome = itemView.findViewById(R.id.Nome)
             Telefone = itemView.findViewById(R.id.Telefone)
             Status = itemView.findViewById(R.id.Status)
+            btnAtivar = itemView.findViewById(R.id.btn_ativar)
+            btnDesativar = itemView.findViewById(R.id.btn_desativar)
             id=""
+
+            btnAtivar.setOnClickListener{
+                db.collection("Cliente").document(id)
+                    .update("status", "Ativo")
+                    .addOnSuccessListener {
+                        mensagem("Cliente ativado com sucesso!", "ALERTA", context)
+                        Status.setText("Ativo")
+                    }
+                    .addOnFailureListener{
+                        mensagem("Não foi possivel ativar este cliente", "ALERTA",context)
+
+                    }
+            }
+
+            btnDesativar.setOnClickListener{
+                db.collection("Cliente").document(id)
+                    .update("status", "desativar")
+                    .addOnSuccessListener {
+                        mensagem("Cliente desativado!", "ALERTA", context)
+                        Status.setText("Desativado")
+                    }
+                    .addOnFailureListener{
+                        mensagem("Não foi possivel desativar este cliente", "ALERTA",context)
+                    }
+            }
         }
     }
 
@@ -47,5 +83,19 @@ class ClienteAdapter(private val ListaCliente:ArrayList<ClienteModel>, private v
         holder.Telefone.text = ListaCliente[position].Telefone
         holder.Status.text = ListaCliente[position].status
         holder.Email.text = ListaCliente[position].Email
+        holder.id = ListaCliente[position].id.toString()
+    }
+
+
+    private fun mensagem(msg:String, titulo:String,context: Context){
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(titulo)
+            .setMessage(msg)
+            .setPositiveButton("OK"){
+                    dialog, whitch ->
+            }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+
     }
 }

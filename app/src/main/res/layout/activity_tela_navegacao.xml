@@ -7,9 +7,6 @@
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
-
     <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
