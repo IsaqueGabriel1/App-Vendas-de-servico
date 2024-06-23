@@ -84,12 +84,6 @@ class telaNavegacao : AppCompatActivity() {
                     finish()
                 }
             }
-
-            binding.btnListarCliente.setOnClickListener{
-                val voltarTelaLogin = Intent(this, ListarCliente::class.java)
-                startActivity(voltarTelaLogin)
-                finish()
-            }
         }
     private fun caixaDeMensagem(msg:String){
         val builder = AlertDialog.Builder(this)

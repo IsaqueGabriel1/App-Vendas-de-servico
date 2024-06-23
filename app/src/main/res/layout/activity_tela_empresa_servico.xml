@@ -13,7 +13,6 @@
         android:background="@color/backgroud"
         tools:context=".view.cliente.editarOrdem.EditarOrdem">
 
-
         <TextView
             android:id="@+id/btn_deslogar"
             android:layout_width="wrap_content"
@@ -36,7 +35,7 @@
             android:layout_marginBottom="20dp"
             />
 
-        <TextView
+        <EditText
             android:id="@+id/editDescricao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

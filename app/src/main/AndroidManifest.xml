@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ProjetoKotlin"
         tools:targetApi="31">
         <activity
+            android:name=".view.inicioEmpresa.relatorioOrdem.RelatorioDasOrdens"
+            android:exported="false" />
+        <activity
             android:name=".view.telaAdm.Adm"
             android:exported="false" />
         <activity

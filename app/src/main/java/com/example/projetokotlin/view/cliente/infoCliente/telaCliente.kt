@@ -1,5 +1,6 @@
 package com.example.projetokotlin.view.cliente.infoCliente
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -11,7 +12,9 @@ import com.example.projetokotlin.R
 import com.example.projetokotlin.databinding.ActivityServicosClienteBinding
 import com.example.projetokotlin.databinding.ActivityTelaClienteBinding
 import com.example.projetokotlin.view.cliente.Cliente
+import com.example.projetokotlin.view.formlogin.FormLogin
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -24,6 +27,7 @@ class telaCliente : AppCompatActivity() {
         binding = ActivityTelaClienteBinding.inflate(layoutInflater)
         enableEdgeToEdge()
         getId()
+        carregarEmail()
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -43,21 +47,68 @@ class telaCliente : AppCompatActivity() {
                             "Telefone" to binding.editTelefone.text.toString()
                          )
                     ).addOnSuccessListener {
-                        mensagem("Cliente ${binding.editNome.text.toString()} editado com sucesso!","AVISO!")
+                        mensagem("Cliente ${binding.editNome.text.toString()} editado com sucesso!","AVISO!","")
                     }.addOnFailureListener{
-                        mensagem("Não foi possivel editar o cliente","AVISO")
+                        mensagem("Não foi possivel editar o cliente","AVISO","")
                     }
             }
         }
+
+        binding.btnExcluir.setOnClickListener{
+            deletarCliente()
+        }
     }
 
-    private fun mensagem(msg: String, titulo: String) {
+    private fun deletarCliente(){
+        if(idCliente != null){
+            db.collection("Cliente").document(idCliente)
+                .delete().addOnSuccessListener {
+                    val user = Firebase.auth.currentUser!!
+                    user.delete()
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                msgDelete("O Cliente ${binding.editNome.text.toString()} foi removido")
+
+                            }
+                        }
+                }
+                .addOnFailureListener{
+                    msgDelete("Não foi possivel remover o cliente ${binding.editNome.text.toString()} ${it.message}")
+                }
+        }else{
+            Log.w("TAG", "ID $idCliente: ")
+        }
+    }
+
+    private fun msgDelete(msg: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle(titulo)
+        builder.setTitle("AVISO")
             .setMessage(msg)
+            .setPositiveButton("Ok") { dialog, whitch ->
+                telaLogin()
+            }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }
+
+    private fun telaLogin(){
+        FirebaseAuth.getInstance().signOut()
+        val intent = Intent(this, FormLogin::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun mensagem(msg: String, titulo: String, mensagemSimples: String) {
+        Log.w("TAG", "ID $mensagemSimples: ")
+        val builder = AlertDialog.Builder(this)
+            builder.setTitle(titulo)
+                .setMessage(msg)
+                .setPositiveButton("Ok") { dialog, whitch ->
+                }
+            val alertDialog: AlertDialog = builder.create()
+            alertDialog.show()
+    }
+
 
     private fun getId() {
         val email = Firebase.auth.currentUser
@@ -71,6 +122,8 @@ class telaCliente : AppCompatActivity() {
                         if (cliente != null) {
                             if (cliente.id != null) {
                                 this.idCliente = cliente.id
+                                binding.editNome.setText(cliente.Nome)
+                                binding.editTelefone.setText(cliente.Telefone)
                                 Log.w("TAG", "ID = $idCliente")
                             } else {
                                 Log.w("TAG", "Erro: cliente id null")
@@ -81,6 +134,12 @@ class telaCliente : AppCompatActivity() {
                 .addOnFailureListener { exception ->
                     Log.w("TAG", "Error getting documents: ", exception)
                 }
+        }
+    }
+    private fun carregarEmail(){
+        val email = Firebase.auth.currentUser
+        email?.let {
+            binding.editEmail.setText(email.email)
         }
     }
 }
