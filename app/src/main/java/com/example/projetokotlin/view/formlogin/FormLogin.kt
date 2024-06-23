@@ -56,7 +56,6 @@ class FormLogin : AppCompatActivity() {
             } else {
                 auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener { autentic ->
                     if (autentic.isSuccessful) {
-
                         if (email == "adm@gmail.com") {
                             telaAdm()
                         } else {
@@ -104,6 +103,19 @@ class FormLogin : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
+    private fun telaAdm(){
+        val intent = Intent(this, Adm()::class.java)
+        startActivity(intent)
+        finish()
+    }
+        //redefine a senha do usuario se existir
+        private fun redefinirSenha() {
+            val intent = Intent(this, NovaSenhaEmpresa::class.java)
+            startActivity(intent)
+            finish()
+        }
 
 
     private fun navegarTelainicial() {
