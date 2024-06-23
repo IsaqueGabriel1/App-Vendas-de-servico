@@ -7,5 +7,6 @@ data class Ordem(
     val valor:String?=null,
     val status:String?=null,
     val comentario:String?=null,
-    val numeroStars:Float?=null
+    val numeroStars:Float?=null,
+    val id:String?=null
 )

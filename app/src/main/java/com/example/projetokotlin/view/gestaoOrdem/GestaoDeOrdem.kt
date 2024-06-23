@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class GestaoDeOrdem : AppCompatActivity() {
     private lateinit var binding: ActivityGestaoDeOrdemBinding
     var status = ""
+    var id:String = ""
     private val db = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,10 +32,13 @@ class GestaoDeOrdem : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
         recuperarDados()
+
         binding.btnAceitar.setOnClickListener {
             if (status != "Aberto") {
-                db.collection("Servico").document(binding.editDescricao.text.toString())
+                db.collection("Servico").document(id)
                     .update("status", "Aberto")
                     .addOnSuccessListener {
                         mensagem("Serviço aceito com sucesso!", true, "AVISO")
@@ -55,10 +59,9 @@ class GestaoDeOrdem : AppCompatActivity() {
             telaInicial()
         }
 
-
         binding.btnFinalizar.setOnClickListener{
             if(status == "Aberto"){
-                db.collection("Servico").document(binding.editDescricao.text.toString())
+                db.collection("Servico").document(id)
                     .update("status", "Finalizado")
                     .addOnSuccessListener {
                         mensagem("Serviço Finalizado!", true,"AVISO")
@@ -112,16 +115,17 @@ class GestaoDeOrdem : AppCompatActivity() {
         val valor = intent.getStringExtra("valor")
         val porte = intent.getStringExtra("porte")
         val status = intent.getStringExtra("status")
-
+        val id = intent.getStringExtra("id")
         //função para colocar dados nos inputs
-        setaInput(descricao.toString(),valor.toString(),porte.toString(), status.toString())
+        setaInput(descricao.toString(),valor.toString(),porte.toString(), status.toString(),id.toString())
     }
 
     //coloca nos inputs as informações vindas da tela de listar ordens
-    private fun setaInput(descricao:String, valor:String, porte:String,status:String){
+    private fun setaInput(descricao:String, valor:String, porte:String,status:String,id:String){
         binding.editDescricao.setText(descricao)
         binding.editPorte.setText(porte)
         binding.editValor.setText(valor)
         this.status = status
+        this.id = id
     }
 }

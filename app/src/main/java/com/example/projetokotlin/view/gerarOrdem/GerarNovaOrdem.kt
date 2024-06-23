@@ -1,5 +1,6 @@
 package com.example.projetokotlin.view.gerarOrdem
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +15,7 @@ import com.example.projetokotlin.view.EditarExcluirOrdem.EditarExcluirOrdem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.random.Random
 
 class GerarNovaOrdem : AppCompatActivity() {
 
@@ -51,7 +53,6 @@ class GerarNovaOrdem : AppCompatActivity() {
                     }
 
                 }
-
             }
         }
     }
@@ -67,6 +68,7 @@ class GerarNovaOrdem : AppCompatActivity() {
         val porteSistema = binding.txtporteSistema.text.toString()
         val valor = binding.txtvalor.text.toString()
         val email = Firebase.auth.currentUser
+        val id = randomCode()
 
         email?.let{
             val ordemMap = hashMapOf(
@@ -76,11 +78,12 @@ class GerarNovaOrdem : AppCompatActivity() {
                 "valor" to "R$"+valor.toString(),
                 "status" to "Aguardando analise",
                 "comentario" to "",
-                "numeroStars" to 0
+                "numeroStars" to 0,
+                "id" to id
             )
 
             //atraves do metodo .set, cria uma nova ordem conforme o hashMapOf
-            db.collection("Servico").document(binding.txtdescricaoServico.text.toString())
+            db.collection("Servico").document(id.toString())
                 .set(ordemMap).addOnSuccessListener {
                     mensagem("Servico cadastrado com sucesso!", true)
                     limparCampos()
@@ -95,8 +98,8 @@ class GerarNovaOrdem : AppCompatActivity() {
         binding.txtporteSistema.setText("")
         binding.txtvalor.setText("")
     }
+    @SuppressLint("SuspiciousIndentation")
     private fun mensagem(msg:String, sucesso:Boolean){
-
         val builder = AlertDialog.Builder(this)
             if(sucesso == true){
                 builder.setTitle("Alerta!")
@@ -118,5 +121,12 @@ class GerarNovaOrdem : AppCompatActivity() {
         val voltarTelaLogin = Intent(this, telaNavegacao:: class.java)
         startActivity(voltarTelaLogin)
         finish()
+    }
+
+    private fun randomCode():String{
+        val r5 = Random.nextInt(0,2147483647)
+
+        val numero = "$r5"
+        return numero
     }
 }

@@ -22,18 +22,21 @@ import kotlin.random.Random
 
 class MyAdapter(private  val OrdemServico:ArrayList<Ordem>, private val context: Context):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
     private val db = FirebaseFirestore.getInstance()
+
     inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var cliente:TextView
         var descricao: TextView
         var comentario: TextView
         var numeroStars: RatingBar
         var btn_avaliar:Button
+        var id_item:String
         init {
             cliente = itemView.findViewById(R.id.txtCliente)
             descricao = itemView.findViewById(R.id.editdescricao)
             comentario = itemView.findViewById(R.id.editComentario)
             numeroStars = itemView.findViewById(R.id.ratingbar)
             btn_avaliar = itemView.findViewById(R.id.btn_avaliar)
+            id_item = ""
             btn_avaliar.setOnClickListener{
 
                 val email = Firebase.auth.currentUser
@@ -42,6 +45,7 @@ class MyAdapter(private  val OrdemServico:ArrayList<Ordem>, private val context:
                         if(email.email.toString() == cliente.text.toString()){
                             val intent = Intent(context, avaliacaoServico::class.java)
                             intent.putExtra("descricao", descricao.text.toString())
+                            intent.putExtra("id",id_item)
                             context.startActivity(intent)
                         }else{
                             mensagem("Você não pode avaliar uma ordem que não te pertence!")
@@ -68,6 +72,7 @@ class MyAdapter(private  val OrdemServico:ArrayList<Ordem>, private val context:
         holder.descricao.text = OrdemServico[position].descricao
         holder.comentario.text = OrdemServico[position].comentario
         holder.numeroStars.rating = OrdemServico[position].numeroStars?.toFloat()!!
+        holder.id_item = OrdemServico[position].id.toString()
     }
 
     private fun mensagem(msg:String){

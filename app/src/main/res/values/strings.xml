@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Venda de Servico</string>
+    <string name="app_name">Venda de Servico 2.0</string>
     <string name="titulo_form_cadastro">Cadastro</string>
     <string name="titulo_form_login">Login</string>
     <string name="hint_email">Email</string>

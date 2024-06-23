@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class avaliacaoServico : AppCompatActivity() {
     private lateinit var binding: ActivityAvaliacaoServicoBinding
     private val db = FirebaseFirestore.getInstance()
+    var id:String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAvaliacaoServicoBinding.inflate(layoutInflater)
@@ -39,7 +40,7 @@ class avaliacaoServico : AppCompatActivity() {
             binding.rbStarts.setText("" + rating)
         }
         binding.btnAvaliacao.setOnClickListener {
-            db.collection("Servico").document(binding.editdescricao.text.toString())
+            db.collection("Servico").document(id)
                 .update(
                     mapOf(
                         "comentario" to binding.editComentario.text.toString(),
@@ -54,15 +55,18 @@ class avaliacaoServico : AppCompatActivity() {
         }
     }
 
-    private fun setaInput(descricao:String){
+    private fun setaInput(descricao:String,id:String){
         binding.editdescricao.setText(descricao)
+        this.id = id.toString()
+
     }
 
     private fun recuperarDados(){
         val descricao = intent.getStringExtra("descricao")
+        val id = intent.getStringExtra("id")
 
         //função para colocar dados nos inputs
-        setaInput(descricao.toString())
+        setaInput(descricao.toString(),id.toString())
     }
 
 
