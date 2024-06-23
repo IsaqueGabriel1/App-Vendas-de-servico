@@ -20,6 +20,7 @@ import com.example.projetokotlin.view.inicioEmpresa.telaInicialEmpresa
 import com.example.projetokotlin.view.listaServico.MyAdapter
 import com.example.projetokotlin.view.listaServico.Ordem
 import com.example.projetokotlin.view.navegacao.telaNavegacao
+
 import com.example.projetokotlin.view.telaAdm.Adm
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -55,9 +56,10 @@ class FormLogin : AppCompatActivity() {
             } else {
                 auth.signInWithEmailAndPassword(email, senha).addOnCompleteListener { autentic ->
                     if (autentic.isSuccessful) {
-                        if(email == "adm@gmail.com"){
+
+                        if (email == "adm@gmail.com") {
                             telaAdm()
-                        }else{
+                        } else {
                             if (email == "empresa@gmail.com") {
                                 navegarInicialEmpresa()
                             } else {
@@ -89,19 +91,20 @@ class FormLogin : AppCompatActivity() {
             redefinirSenha()
         }
     }
-        //redefine a senha do usuario se existir
-        private fun redefinirSenha() {
-            val intent = Intent(this, NovaSenhaEmpresa::class.java)
-            startActivity(intent)
-            finish()
-        }
 
+    //redefine a senha do usuario se existir
+    private fun redefinirSenha() {
+        val intent = Intent(this, NovaSenhaEmpresa::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     private fun telaAdm(){
         val intent = Intent(this, Adm()::class.java)
         startActivity(intent)
         finish()
     }
+
 
     private fun navegarTelainicial() {
         db.collection("Cliente")
@@ -117,6 +120,7 @@ class FormLogin : AppCompatActivity() {
                             startActivity(intent)
                             finish()
                         }else{
+
                             if(cliente.status != "Ativo"){
                                 mensagem("Este cliente está com sua conta desativada, entre em contato com o ADM para mais informações","ALERTA")
                             }else{
@@ -138,25 +142,25 @@ class FormLogin : AppCompatActivity() {
             }
     }
 
-        private fun navegarInicialEmpresa() {
-            val intent = Intent(this, telaInicialEmpresa()::class.java)
-            startActivity(intent)
-            finish()
-        }
+    private fun navegarInicialEmpresa() {
+        val intent = Intent(this, telaInicialEmpresa()::class.java)
+        startActivity(intent)
+        finish()
+    }
 
-        override fun onStart() {
-            super.onStart()
-            val usuarioAtual = FirebaseAuth.getInstance().currentUser
-            if (usuarioAtual != null) {
-                navegarTelainicial()
-            }
+    override fun onStart() {
+        super.onStart()
+        val usuarioAtual = FirebaseAuth.getInstance().currentUser
+        if (usuarioAtual != null) {
+            navegarTelainicial()
         }
+    }
 
-        private fun mensagem(msg: String, titulo: String) {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle(titulo)
-                .setMessage(msg)
-            val alertDialog: AlertDialog = builder.create()
-            alertDialog.show()
-        }
+    private fun mensagem(msg: String, titulo: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(titulo)
+            .setMessage(msg)
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
+    }
 }

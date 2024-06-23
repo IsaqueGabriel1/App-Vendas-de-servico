@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RatingBar
 import android.widget.TextView
+
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projetokotlin.R
@@ -15,18 +16,22 @@ import com.example.projetokotlin.view.avaliacao.avaliacaoServico
 import com.example.projetokotlin.view.cliente.Ordem
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ClienteAdapter(private val ListaCliente:ArrayList<ClienteModel>, private val context: Context):RecyclerView.Adapter<ClienteAdapter.MyViewHolder>(){
     private var db = FirebaseFirestore.getInstance()
+
     inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var Email:TextView
         var Nome: TextView
         var Telefone: TextView
         var Status: TextView
         var id:String
+
         var btnAtivar:Button
         var btnDesativar:Button
+      
         init {
             Email = itemView.findViewById(R.id.Email)
             Nome = itemView.findViewById(R.id.Nome)
@@ -91,5 +96,6 @@ class ClienteAdapter(private val ListaCliente:ArrayList<ClienteModel>, private v
             }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
+
     }
 }

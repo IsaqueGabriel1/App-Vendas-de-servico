@@ -16,6 +16,19 @@
         tools:context=".view.cliente.infoCliente.telaCliente">
 
         <TextView
+            android:id="@+id/btn_voltar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/ic_voltar_nav"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Área do cliente"
@@ -23,7 +36,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="20dp"
             />
 
@@ -53,9 +66,11 @@
             android:layout_marginTop="10dp"
             android:padding="15dp"
             android:layout_marginStart="20dp"
+            android:textStyle="bold"
             android:layout_marginEnd="20dp"
             android:maxLines="1"
             android:inputType="textEmailAddress"
+            android:enabled="false"
             />
 
         <EditText
@@ -89,20 +104,6 @@
             android:layout_marginEnd="20dp"
             />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_desativar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Desativar cliente"
-            android:layout_gravity="center"
-            android:background="@drawable/backgroud_buttom_editar"
-            android:textColor="@color/corFunAzul"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_excluir"

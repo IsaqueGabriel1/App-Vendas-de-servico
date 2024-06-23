@@ -109,6 +109,7 @@ class ListarCliente : AppCompatActivity() {
     private fun telaInicial(){
         val email = Firebase.auth.currentUser
         email?.let {
+
             if(email.email == "adm@gmail.com"){
                 val intent = Intent(this, Adm()::class.java)
                 startActivity(intent)
