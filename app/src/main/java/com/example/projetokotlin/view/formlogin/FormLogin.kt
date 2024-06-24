@@ -104,20 +104,6 @@ class FormLogin : AppCompatActivity() {
         finish()
     }
 
-
-    private fun telaAdm(){
-        val intent = Intent(this, Adm()::class.java)
-        startActivity(intent)
-        finish()
-    }
-        //redefine a senha do usuario se existir
-        private fun redefinirSenha() {
-            val intent = Intent(this, NovaSenhaEmpresa::class.java)
-            startActivity(intent)
-            finish()
-        }
-
-
     private fun navegarTelainicial() {
         db.collection("Cliente")
             .whereEqualTo("Email", binding.editEmail.text.toString())
