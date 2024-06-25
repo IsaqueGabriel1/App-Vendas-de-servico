@@ -45,25 +45,34 @@ class NovaSenhaEmpresa : AppCompatActivity() {
             val senha2 = binding.editConfirSenha.text.toString()
             val email = binding.editEmail.text.toString()
 
-
-                if(binding.editEmail.text != null){
-                    if(senha1 == senha2){
-                        Firebase.auth.sendPasswordResetEmail(email).continueWith {
-                                task ->
-                            if(task.isCanceled){
-                                caixaDeMensagem("Não foi possivel enviar o email, tente novamente mais tarde!",true)
+            //se os campos estiverem vazios, não deixará criar nova senha
+            if (senha1.isEmpty() || senha2.isEmpty() || email.isEmpty()) {
+                caixaDeMensagem("Preencha todos os campos", false)
+            } else {
+                if (binding.editEmail.text != null) {
+                    if (senha1 == senha2) {
+                        Firebase.auth.sendPasswordResetEmail(email).continueWith { task ->
+                            if (task.isCanceled) {
+                                caixaDeMensagem(
+                                    "Não foi possivel enviar o email, tente novamente mais tarde!",
+                                    true
+                                )
                             }
-                            caixaDeMensagem("Se o email informado for valido, enviaremos um link para redefinir sua senha!",true)
+                            caixaDeMensagem(
+                                "Se o email informado for valido, enviaremos um link para redefinir sua senha!",
+                                true
+                            )
                         }
-                    }else{
-                        caixaDeMensagem("As senhas não coincidem!",false)
+                    } else {
+                        caixaDeMensagem("As senhas não coincidem!", false)
                         binding.editSenha.setText("")
                         binding.editConfirSenha.setText("")
                     }
                 }
             }
-
+        }
     }
+
     private fun caixaDeMensagem(msg:String, resp:Boolean){
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Alerta de alteração")

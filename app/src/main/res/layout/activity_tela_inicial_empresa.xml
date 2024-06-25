@@ -7,9 +7,6 @@
     android:fillViewport="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-
-
     <LinearLayout
         android:id="@+id/main"
         android:layout_width="match_parent"
@@ -77,6 +74,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Redefinição de senha"
+            android:layout_gravity="center"
+            android:background="@drawable/backgroud_buttom"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_relatorio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Relatório das ordens"
             android:layout_gravity="center"
             android:background="@drawable/backgroud_buttom"
             android:textColor="@color/white"
