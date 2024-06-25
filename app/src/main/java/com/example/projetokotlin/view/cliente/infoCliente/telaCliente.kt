@@ -13,6 +13,7 @@ import com.example.projetokotlin.databinding.ActivityServicosClienteBinding
 import com.example.projetokotlin.databinding.ActivityTelaClienteBinding
 import com.example.projetokotlin.view.cliente.Cliente
 import com.example.projetokotlin.view.formlogin.FormLogin
+import com.example.projetokotlin.view.navegacao.telaNavegacao
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -38,20 +39,28 @@ class telaCliente : AppCompatActivity() {
         //fazer a lógica para as demais funcionalidades
 
         binding.btnEditar.setOnClickListener{
-            if(idCliente != null){
-                db.collection("Cliente").document(idCliente)
-                    .update(
-                        mapOf(
-                            "Nome" to binding.editNome.text.toString(),
-                            "Email" to binding.editEmail.text.toString(),
-                            "Telefone" to binding.editTelefone.text.toString()
-                         )
-                    ).addOnSuccessListener {
-                        mensagem("Cliente ${binding.editNome.text.toString()} editado com sucesso!","AVISO!","")
-                    }.addOnFailureListener{
-                        mensagem("Não foi possivel editar o cliente","AVISO","")
-                    }
+            if(binding.editNome.text.toString() == "" || binding.editEmail.text.toString() == "" || binding.editTelefone.text.toString() == ""){
+                mensagem("Preencha todos os campos", "AVISO")
+            }else{
+                if(idCliente != null){
+                    db.collection("Cliente").document(idCliente)
+                        .update(
+                            mapOf(
+                                "Nome" to binding.editNome.text.toString(),
+                                "Email" to binding.editEmail.text.toString(),
+                                "Telefone" to binding.editTelefone.text.toString()
+                            )
+                        ).addOnSuccessListener {
+                            msgDelete("Cliente ${binding.editNome.text.toString()} editado com sucesso!",false)
+                        }.addOnFailureListener{
+                            mensagem("Não foi possivel editar o cliente","AVISO")
+                        }
+                }
             }
+        }
+
+        binding.btnVoltar.setOnClickListener{
+            gotTotelaNavegacao()
         }
 
         binding.btnExcluir.setOnClickListener{
@@ -67,29 +76,38 @@ class telaCliente : AppCompatActivity() {
                     user.delete()
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                msgDelete("O Cliente ${binding.editNome.text.toString()} foi removido")
+                                msgDelete("O Cliente ${binding.editNome.text.toString()} foi removido",true)
 
                             }
                         }
                 }
                 .addOnFailureListener{
-                    msgDelete("Não foi possivel remover o cliente ${binding.editNome.text.toString()} ${it.message}")
+                    msgDelete("Não foi possivel remover o cliente ${binding.editNome.text.toString()} ${it.message}",true)
                 }
         }else{
             Log.w("TAG", "ID $idCliente: ")
         }
     }
 
-    private fun msgDelete(msg: String) {
+    private fun msgDelete(msg: String,tipoMsg:Boolean) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("AVISO")
             .setMessage(msg)
             .setPositiveButton("Ok") { dialog, whitch ->
-                telaLogin()
+                //se verdadeiro, pode ser erro ou o cliente foi deletado
+                if(tipoMsg){
+                    telaLogin()
+                }else{
+                    //se falço o cliente foi editado, e será direcionado para tela de navegação
+                    gotTotelaNavegacao()
+                }
+
             }
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }
+
+
 
     private fun telaLogin(){
         FirebaseAuth.getInstance().signOut()
@@ -98,8 +116,13 @@ class telaCliente : AppCompatActivity() {
         finish()
     }
 
-    private fun mensagem(msg: String, titulo: String, mensagemSimples: String) {
-        Log.w("TAG", "ID $mensagemSimples: ")
+    private fun gotTotelaNavegacao(){
+        val intent = Intent(this, telaNavegacao::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun mensagem(msg: String, titulo: String) {
         val builder = AlertDialog.Builder(this)
             builder.setTitle(titulo)
                 .setMessage(msg)
