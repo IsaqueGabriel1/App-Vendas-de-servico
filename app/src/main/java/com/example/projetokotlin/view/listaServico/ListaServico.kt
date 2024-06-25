@@ -94,7 +94,7 @@ class ListaServico : AppCompatActivity() {
                         val servico: Ordem? = data.toObject(Ordem::class.java)
                         if (servico != null &&  (servico.status.toString() == "Aberto" || servico?.status.toString() == "Aguardando analise")) {
                             if(filtro != ""){
-                                if(filtro == servico.descricao.toString()){
+                                if(filtro == servico.descricao || filtro == servico.Cliente || filtro == servico.status || filtro == servico.porteSistema || filtro == servico.valor){
                                     servico?.let { it1 -> servicoList.add(it1) }
                                 }
                             }else{
