@@ -91,7 +91,7 @@ class OrdensDoCliente : AppCompatActivity() {
                             if (servico != null) {
                                 if(servico.status.toString() == "Finalizado"){
                                     if(filtro != ""){
-                                        if(servico.status == filtro || servico.descricao == filtro || servico.comentario == filtro || servico.numeroStars.toString() == filtro){
+                                        if(servico.status == filtro || servico.descricao == filtro || servico.Cliente == filtro || servico.comentario == filtro || servico.numeroStars.toString() == filtro){
                                             listaServicoContratado.add(servico)
                                         }
                                     }else{

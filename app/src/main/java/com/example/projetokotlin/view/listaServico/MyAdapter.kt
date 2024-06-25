@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintSet.Layout
 import androidx.core.graphics.component1
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBindings
@@ -36,10 +37,11 @@ class MyAdapter(private  var servicoLista:ArrayList<Ordem>, private val context:
             valor = itemView.findViewById(R.id.editValor)
             porte = itemView.findViewById(R.id.editPorteSys)
             status = itemView.findViewById(R.id.editStatus)
-            id_item = ""
             btn_edit = itemView.findViewById(R.id.btn_editar)
+            id_item = ""
+
             btn_edit.setOnClickListener{
-                teste()
+                levarDadosParaTelasGestaoOrdemEditarExcluirOrdem()
             }
 
 
@@ -53,7 +55,7 @@ class MyAdapter(private  var servicoLista:ArrayList<Ordem>, private val context:
             }
         }
 
-        private fun teste(){
+        private fun levarDadosParaTelasGestaoOrdemEditarExcluirOrdem(){
             val email = Firebase.auth.currentUser
             email?.let {
                 if (email.email == "empresa@gmail.com") {
@@ -75,29 +77,28 @@ class MyAdapter(private  var servicoLista:ArrayList<Ordem>, private val context:
                 } else {
                     if(status.text.toString() == "Aberto"){
                         mensagem("Esse serviço já esta sendo executado pela empresa, não pode ser editado ou excluido", false)
-                    }else{
-                        if(status.text.toString() == "Aguardando analise" || status.text.toString() == "Cancelado"){
-                            //pega a referencia da atividade ListarServico para ir para a tela de edicao ser ordem
-                            val intent = Intent(context, EditarExcluirOrdem::class.java)
-                            intent.putExtra("descricao", descricao.text.toString())
-                            intent.putExtra("valor", valor.text.toString())
-                            intent.putExtra("porte", porte.text.toString())
-                            intent.putExtra("status",status.text.toString())
-                            intent.putExtra("id",id_item)
-                            context.startActivity(intent)
-                        }else{
-                            mensagem("Você não pode editar essa ordem pois, ela já foi finalizada ou Cancelada",false)
+                    }else {
+                        if (status.text.toString() != "Cancelado") {
+                            if (status.text.toString() == "Aguardando analise") {
+                                //pega a referencia da atividade ListarServico para ir para a tela de edicao ser ordem
+                                val intent = Intent(context, EditarExcluirOrdem::class.java)
+                                intent.putExtra("descricao", descricao.text.toString())
+                                intent.putExtra("valor", valor.text.toString())
+                                intent.putExtra("porte", porte.text.toString())
+                                intent.putExtra("status", status.text.toString())
+                                intent.putExtra("id", id_item)
+                                context.startActivity(intent)
+                            }
+                        }else {
+                            mensagem(
+                                "Você não pode editar essa ordem pois, ela já foi finalizada ou Cancelada",
+                                false
+                            )
                         }
                     }
-
                 }
             }
         }
-    }
-
-    fun setFilteredList(servicoLista:ArrayList<Ordem>){
-        this.servicoLista = servicoLista
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

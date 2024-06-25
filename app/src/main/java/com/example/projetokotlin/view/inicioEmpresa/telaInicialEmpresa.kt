@@ -14,6 +14,7 @@ import com.example.projetokotlin.view.cliente.OrdensDoCliente
 import com.example.projetokotlin.view.formlogin.FormLogin
 import com.example.projetokotlin.view.gerarOrdem.GerarNovaOrdem
 import com.example.projetokotlin.view.inicioEmpresa.novaSenha.NovaSenhaEmpresa
+import com.example.projetokotlin.view.inicioEmpresa.relatorioOrdem.RelatorioDasOrdens
 import com.example.projetokotlin.view.listaServico.ListaServico
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -54,6 +55,12 @@ class telaInicialEmpresa : AppCompatActivity() {
 
         binding.btnRedefinirSenha.setOnClickListener{
             val voltarTelaLogin = Intent(this, NovaSenhaEmpresa::class.java)
+            startActivity(voltarTelaLogin)
+            finish()
+        }
+
+        binding.btnRelatorio.setOnClickListener{
+            val voltarTelaLogin = Intent(this, RelatorioDasOrdens::class.java)
             startActivity(voltarTelaLogin)
             finish()
         }

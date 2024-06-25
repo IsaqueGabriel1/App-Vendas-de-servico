@@ -25,14 +25,14 @@ class Adm : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        //desloga do sistema
         binding.btnDeslogar.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             val voltarTelaLogin = Intent(this, FormLogin::class.java)
             startActivity(voltarTelaLogin)
             finish()
         }
-
+        //chama a tela de listarCliente
         binding.btnListarCliente.setOnClickListener{
             val voltarTelaLogin = Intent(this, ListarCliente::class.java)
             startActivity(voltarTelaLogin)
